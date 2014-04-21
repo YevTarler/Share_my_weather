@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YEVViewController : UIViewController
+@interface YEVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (nonatomic,strong) UIImageView *blurredImageView;
+//@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) CGFloat screenHeight;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 
 @end

@@ -14,7 +14,6 @@
 		CCB19A20190470DA00F9683A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A1F190470DA00F9683A /* main.m */; };
 		CCB19A24190470DA00F9683A /* YEVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A23190470DA00F9683A /* YEVAppDelegate.m */; };
 		CCB19A27190470DA00F9683A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCB19A25190470DA00F9683A /* Main_iPhone.storyboard */; };
-		CCB19A2A190470DA00F9683A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCB19A28190470DA00F9683A /* Main_iPad.storyboard */; };
 		CCB19A2D190470DA00F9683A /* YEVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A2C190470DA00F9683A /* YEVViewController.m */; };
 		CCB19A2F190470DA00F9683A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCB19A2E190470DA00F9683A /* Images.xcassets */; };
 		CCB19A36190470DA00F9683A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A35190470DA00F9683A /* XCTest.framework */; };
@@ -22,6 +21,12 @@
 		CCB19A38190470DA00F9683A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A17190470DA00F9683A /* UIKit.framework */; };
 		CCB19A40190470DA00F9683A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCB19A3E190470DA00F9683A /* InfoPlist.strings */; };
 		CCB19A42190470DA00F9683A /* openWeather_testingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A41190470DA00F9683A /* openWeather_testingTests.m */; };
+		CCB19A4D1904719F00F9683A /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A4C1904719F00F9683A /* LocationManager.m */; };
+		CCB19A4F1904723F00F9683A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A4E1904723F00F9683A /* CoreLocation.framework */; };
+		CCB19A521904867400F9683A /* NetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A511904867400F9683A /* NetworkClient.m */; };
+		CCB19A5619048F0000F9683A /* WeatherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A5519048F0000F9683A /* WeatherItem.m */; };
+		CCB19AA119058B3900F9683A /* head.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A9F19058B3900F9683A /* head.m */; };
+		CCB19AA219058B3900F9683A /* myHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCB19AA019058B3900F9683A /* myHeader.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +51,6 @@
 		CCB19A22190470DA00F9683A /* YEVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YEVAppDelegate.h; sourceTree = "<group>"; };
 		CCB19A23190470DA00F9683A /* YEVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YEVAppDelegate.m; sourceTree = "<group>"; };
 		CCB19A26190470DA00F9683A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		CCB19A29190470DA00F9683A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		CCB19A2B190470DA00F9683A /* YEVViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YEVViewController.h; sourceTree = "<group>"; };
 		CCB19A2C190470DA00F9683A /* YEVViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YEVViewController.m; sourceTree = "<group>"; };
 		CCB19A2E190470DA00F9683A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -55,6 +59,16 @@
 		CCB19A3D190470DA00F9683A /* openWeather testingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "openWeather testingTests-Info.plist"; sourceTree = "<group>"; };
 		CCB19A3F190470DA00F9683A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CCB19A41190470DA00F9683A /* openWeather_testingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = openWeather_testingTests.m; sourceTree = "<group>"; };
+		CCB19A4B1904719F00F9683A /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		CCB19A4C1904719F00F9683A /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		CCB19A4E1904723F00F9683A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CCB19A501904867400F9683A /* NetworkClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkClient.h; sourceTree = "<group>"; };
+		CCB19A511904867400F9683A /* NetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkClient.m; sourceTree = "<group>"; };
+		CCB19A5419048F0000F9683A /* WeatherItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherItem.h; sourceTree = "<group>"; };
+		CCB19A5519048F0000F9683A /* WeatherItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherItem.m; sourceTree = "<group>"; };
+		CCB19A9E19058B3900F9683A /* head.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = head.h; path = "../../../../Desktop/ios-project/aug 16/Shared weather photo app/Shared weather photo app/head.h"; sourceTree = "<group>"; };
+		CCB19A9F19058B3900F9683A /* head.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = head.m; path = "../../../../Desktop/ios-project/aug 16/Shared weather photo app/Shared weather photo app/head.m"; sourceTree = "<group>"; };
+		CCB19AA019058B3900F9683A /* myHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = myHeader.xib; path = "../../../../Desktop/ios-project/aug 16/Shared weather photo app/Shared weather photo app/myHeader.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCB19A4F1904723F00F9683A /* CoreLocation.framework in Frameworks */,
 				CCB19A16190470D900F9683A /* CoreGraphics.framework in Frameworks */,
 				CCB19A18190470DA00F9683A /* UIKit.framework in Frameworks */,
 				CCB19A14190470D900F9683A /* Foundation.framework in Frameworks */,
@@ -103,6 +118,7 @@
 		CCB19A12190470D900F9683A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCB19A4E1904723F00F9683A /* CoreLocation.framework */,
 				CCB19A13190470D900F9683A /* Foundation.framework */,
 				CCB19A15190470D900F9683A /* CoreGraphics.framework */,
 				CCB19A17190470DA00F9683A /* UIKit.framework */,
@@ -114,10 +130,12 @@
 		CCB19A19190470DA00F9683A /* openWeather testing */ = {
 			isa = PBXGroup;
 			children = (
+				CCB19AA419058E6200F9683A /* New Group1 */,
+				CCB19AA319058E5B00F9683A /* New Group */,
+				CCB19A5319048E8000F9683A /* Model */,
 				CCB19A22190470DA00F9683A /* YEVAppDelegate.h */,
 				CCB19A23190470DA00F9683A /* YEVAppDelegate.m */,
 				CCB19A25190470DA00F9683A /* Main_iPhone.storyboard */,
-				CCB19A28190470DA00F9683A /* Main_iPad.storyboard */,
 				CCB19A2B190470DA00F9683A /* YEVViewController.h */,
 				CCB19A2C190470DA00F9683A /* YEVViewController.m */,
 				CCB19A2E190470DA00F9683A /* Images.xcassets */,
@@ -153,6 +171,36 @@
 				CCB19A3E190470DA00F9683A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CCB19A5319048E8000F9683A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CCB19A9E19058B3900F9683A /* head.h */,
+				CCB19A9F19058B3900F9683A /* head.m */,
+				CCB19AA019058B3900F9683A /* myHeader.xib */,
+				CCB19A4B1904719F00F9683A /* LocationManager.h */,
+				CCB19A4C1904719F00F9683A /* LocationManager.m */,
+				CCB19A501904867400F9683A /* NetworkClient.h */,
+				CCB19A511904867400F9683A /* NetworkClient.m */,
+				CCB19A5419048F0000F9683A /* WeatherItem.h */,
+				CCB19A5519048F0000F9683A /* WeatherItem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		CCB19AA319058E5B00F9683A /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		CCB19AA419058E6200F9683A /* New Group1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group1";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,7 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCB19A2A190470DA00F9683A /* Main_iPad.storyboard in Resources */,
+				CCB19AA219058B3900F9683A /* myHeader.xib in Resources */,
 				CCB19A2F190470DA00F9683A /* Images.xcassets in Resources */,
 				CCB19A27190470DA00F9683A /* Main_iPhone.storyboard in Resources */,
 				CCB19A1E190470DA00F9683A /* InfoPlist.strings in Resources */,
@@ -254,7 +302,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCB19A521904867400F9683A /* NetworkClient.m in Sources */,
+				CCB19A5619048F0000F9683A /* WeatherItem.m in Sources */,
+				CCB19A4D1904719F00F9683A /* LocationManager.m in Sources */,
 				CCB19A2D190470DA00F9683A /* YEVViewController.m in Sources */,
+				CCB19AA119058B3900F9683A /* head.m in Sources */,
 				CCB19A20190470DA00F9683A /* main.m in Sources */,
 				CCB19A24190470DA00F9683A /* YEVAppDelegate.m in Sources */,
 			);
@@ -293,14 +345,6 @@
 				CCB19A26190470DA00F9683A /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		CCB19A28190470DA00F9683A /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CCB19A29190470DA00F9683A /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		CCB19A3E190470DA00F9683A /* InfoPlist.strings */ = {
@@ -390,7 +434,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "openWeather testing/openWeather testing-Prefix.pch";
 				INFOPLIST_FILE = "openWeather testing/openWeather testing-Info.plist";
@@ -403,7 +446,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "openWeather testing/openWeather testing-Prefix.pch";
 				INFOPLIST_FILE = "openWeather testing/openWeather testing-Info.plist";
