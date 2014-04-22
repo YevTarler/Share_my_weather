@@ -10,11 +10,11 @@
 
 @interface WeatherItem : NSObject
 
-@property (nonatomic, strong) NSString *date;
+@property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSNumber *humidity;
 @property (nonatomic, strong) NSString *temperature;
-@property (nonatomic, strong) NSNumber *tempHigh;
-@property (nonatomic, strong) NSNumber *tempLow;
+@property (nonatomic, strong) NSString *tempHigh;
+@property (nonatomic, strong) NSString *tempLow;
 @property (nonatomic, strong) NSString *locationName;
 @property (nonatomic, strong) NSDate *sunrise;
 @property (nonatomic, strong) NSDate *sunset;
@@ -26,8 +26,7 @@
 
 -(instancetype) initWithLocation: (NSString*) locationName temperature: (NSString*) temp icon:(NSString*) icon condition: (NSString*) condition date:(NSString*) date;
 -(NSString*) fahrenheitToCelsius;
-+ (instancetype)weatherItemWithDictionary:(NSDictionary *)dictionary;
-
++ (NSDictionary *)imageMap;
 @end
 
 //need 

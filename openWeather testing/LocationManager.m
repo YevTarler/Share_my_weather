@@ -1,11 +1,3 @@
-//
-//  LocationManager.m
-//  openWeather testing
-//
-//  Created by Yevgeni Tarler on 4/21/14.
-//  Copyright (c) 2014 Eugene Tarler. All rights reserved.
-//
-
 #import "LocationManager.h"
 
 NSString * const kLocationDidChangeNotificationKey = @"locationManagerlocationDidChange";
@@ -14,6 +6,7 @@ NSString * const kLocationDidChangeNotificationKey = @"locationManagerlocationDi
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, readwrite) BOOL           isMonitoringLocation;
+
 
 @end
 
@@ -29,6 +22,8 @@ NSString * const kLocationDidChangeNotificationKey = @"locationManagerlocationDi
     
     return _sharedLocationManager;
 }
+
+
 
 #pragma mark - Public API
 
@@ -80,19 +75,32 @@ NSString * const kLocationDidChangeNotificationKey = @"locationManagerlocationDi
 
 #pragma mark - CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
-    if (newLocation) {
-        userInfo[@"newLocation"] = newLocation;
+//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+//{
+//    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
+//    if (newLocation) {
+//        userInfo[@"newLocation"] = newLocation;
+//    }
+//    if (oldLocation) {
+//        userInfo[@"oldLocation"] = oldLocation;
+//    }
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kLocationDidChangeNotificationKey
+//                                                        object:self
+//                                                      userInfo:userInfo];
+//}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    // 1
+    CLLocation* location = [locations lastObject];
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    if (abs(howRecent) < 15.0) {
+        // If the event is recent, do something with it.
+        NSLog(@"latitude %+.6f, longitude %+.6f\n",
+              location.coordinate.latitude,
+              location.coordinate.longitude);
     }
-    if (oldLocation) {
-        userInfo[@"oldLocation"] = oldLocation;
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kLocationDidChangeNotificationKey
-                                                        object:self
-                                                      userInfo:userInfo];
 }
 
 - (void)locationManager:(CLLocationManager*)manager didFailWithError:(NSError*)error
@@ -103,7 +111,5 @@ NSString * const kLocationDidChangeNotificationKey = @"locationManagerlocationDi
         [servicesDisabledAlert show];
     }
 }
-
-
 
 @end

@@ -32,39 +32,7 @@
     return _sharedInstance;
 }
 //general methods:
--(void) fetchJSONFromURL:(NSURL *)url {
-    NSDictionary *jsonDict = nil;
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (! error) {
-            NSError *jsonError;
-            NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-            
-            NSLog(@"json: %@",[jsonDict description]);
-            
-            
-            if (!jsonError) {
-                
-              //  return jsonDict;
-        }
-            else{
-                //json error
-            }
-        }
-        else {
-            // 2
-            NSLog(@"connection error");
-            
-        }
 
-        NSLog(@"request completed");
-    }];
-    
-    // 3
-    [dataTask resume];
-    
-    
-   // return jsonDict;
-}
 //use it in a complition handler. with data from session block
 
 
@@ -101,7 +69,7 @@
             
         }
         
-        NSLog(@"request completed");
+        NSLog(@"request completed - current");
         
     }];
     
@@ -142,7 +110,7 @@
              
          }
          
-         NSLog(@"request completed");
+         NSLog(@"request completed - Hourly");
          
      }];
      
@@ -162,7 +130,7 @@
              NSError *jsonError;
              NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
              
-             NSLog(@"json is: %@",[jsonDict description]);
+            // NSLog(@"json is: %@",[jsonDict description]);
              completion(jsonDict,nil);
              
              if (!jsonError) {
@@ -180,7 +148,7 @@
              
          }
          
-         NSLog(@"request completed");
+         NSLog(@"request completed - Daily");
          
      }];
      
