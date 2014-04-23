@@ -45,7 +45,7 @@
     
   //[self fetchJSONFromURL:url];
     
-    NSDictionary *jsonDict = nil;
+    
     NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (! error) {
             NSError *jsonError;
@@ -86,7 +86,6 @@
     
     
     
-     NSDictionary *jsonDict = nil;
      NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
          if (! error) {
              NSError *jsonError;
@@ -123,14 +122,12 @@
     NSString *urlString = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&units=imperial&cnt=7",coordinate.latitude, coordinate.longitude];
     NSURL *url = [NSURL URLWithString:urlString];
     
-    // Use the generic fetch method and map results to convert into an array of Mantle objects
-     NSDictionary *jsonDict = nil;
+
      NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
          if (! error) {
              NSError *jsonError;
              NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-             
-            // NSLog(@"json is: %@",[jsonDict description]);
+
              completion(jsonDict,nil);
              
              if (!jsonError) {
@@ -142,7 +139,7 @@
              }
          }
          else {
-             // 2
+             
              completion(nil,error);
              NSLog(@"connection error");
              
@@ -152,7 +149,7 @@
          
      }];
      
-     // 3
+     
      [dataTask resume];
 }
 

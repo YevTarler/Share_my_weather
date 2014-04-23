@@ -74,10 +74,137 @@
                     <connections>
                         <outlet property="backgroundImageView" destination="SYD-Lb-TJO" id="yP1-GV-2N7"/>
                         <outlet property="tableView" destination="9Hd-VR-aSn" id="hif-uJ-bit"/>
+                        <segue destination="ZtF-YH-Y7X" kind="modal" identifier="swipeRight" id="Foe-l5-WSZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="49" y="-68"/>
+        </scene>
+        <!--Main Picture View Controller-->
+        <scene sceneID="TQb-SI-fzy">
+            <objects>
+                <viewController storyboardIdentifier="swipeRight" id="hNf-yj-L5L" customClass="MainPictureViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rMC-Cl-JFz"/>
+                        <viewControllerLayoutGuide type="bottom" id="1Pv-6z-zen"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BVq-u4-ZXN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w91-ZL-PhA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="l4J-dR-WNO" appends="YES" id="M93-Xq-phv"/>
+                                </connections>
+                            </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ChY-Fv-b0A">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Refresh" id="duI-dR-4EU">
+                                        <connections>
+                                            <action selector="refresh:" destination="hNf-yj-L5L" id="3EH-fR-PbJ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Photo" id="LBK-IW-CLe">
+                                        <connections>
+                                            <action selector="cameraButtonTapped:" destination="hNf-yj-L5L" id="f5O-an-hRK"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="l4J-dR-WNO" appends="YES" id="WX3-3p-n1Q"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="photoScrollView" destination="w91-ZL-PhA" id="7Vo-c2-3qd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1J4-aA-XCm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="l4J-dR-WNO"/>
+            </objects>
+            <point key="canvasLocation" x="869" y="-68"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="2Cd-Wc-iiL">
+            <objects>
+                <viewController storyboardIdentifier="rootVC" id="ZtF-YH-Y7X" customClass="MJRootViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mgo-DK-1fh"/>
+                        <viewControllerLayoutGuide type="bottom" id="y6M-Un-46h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CUT-De-rEU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tNA-kn-ILR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="2MN-uW-aZd">
+                                    <size key="itemSize" width="320" height="160"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MJCell" id="X6c-CC-3de" customClass="MJCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZtF-YH-Y7X" id="K6a-Eg-iom"/>
+                                    <outlet property="delegate" destination="ZtF-YH-Y7X" id="Rdf-GW-h6Q"/>
+                                </connections>
+                            </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K3t-Et-e6z">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <barButtonItem title="Camera" id="rNf-bf-S7d">
+                                        <connections>
+                                            <action selector="takePhoto:" destination="ZtF-YH-Y7X" id="7ka-De-do9"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ecS-Lk-6Yi" appends="YES" id="V9a-Z6-jda"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="parallaxCollectionView" destination="tNA-kn-ILR" id="wG6-qK-ybE"/>
+                        <outlet property="toolBar" destination="K3t-Et-e6z" id="n1E-hk-c5o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nK0-VI-chH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="ecS-Lk-6Yi">
+                    <connections>
+                        <action selector="swipeBack:" destination="ZtF-YH-Y7X" id="TfG-ep-69d"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Ui7-IM-4PY"/>
+            </objects>
+            <point key="canvasLocation" x="482" y="-68"/>
         </scene>
     </scenes>
     <resources>

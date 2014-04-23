@@ -10,7 +10,7 @@
 #import "LocationManager.h"
 #import "NetworkClient.h"
 #import "WeatherItem.h"
-
+#import "MJRootViewController.h"
 
 
 @interface YEVViewController ()
@@ -34,12 +34,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @property (nonatomic,strong) CLLocation *location;
+
+@property (nonatomic,strong) MJRootViewController *mjrvc;
 @end
 
 @implementation YEVViewController
 
 - (IBAction)swipedRight:(id)sender {
-    NSLog(@"swiped right");
+//change transition ?
+    if (_mjrvc == nil) { //user those if only so the use wont push it twice and more
+       // UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        _mjrvc = [self.storyboard instantiateViewControllerWithIdentifier:@"rootVC"];
+
+    }
+    [self presentViewController:_mjrvc animated:YES completion:nil];
 }
 
 - (void)viewDidLoad
@@ -101,8 +109,6 @@
     
     [self.client fetchCurrentConditionsForLocation:self.location.coordinate completion:^(NSDictionary *data, NSError *error) {
         if (!error) {
-            //int temp_max = lroundf([data[@"main"][@"temp_max"] floatValue]);
-           // int temp_min = lroundf([data[@"main"][@"temp_min"] floatValue]);
             
             self.currentWeather = [[WeatherItem alloc]initWithLocation:data[@"name"] temperature:data[@"main"][@"temp"]  icon:data[@"weather"][0][@"icon"] condition:data[@"weather"][0][@"main"] date:data[@"dt"]] ;
             
@@ -142,8 +148,8 @@
             
             [self.hourlyWeather addObject:item];
         }
-            WeatherItem *weather =self.hourlyWeather[0];
-            NSLog(@"counts and wethear:%d %@",self.hourlyWeather.count,weather.temperature);
+         //   WeatherItem *weather =self.hourlyWeather[0];
+            //NSLog(@"counts and wethear:%d %@",self.hourlyWeather.count,weather.temperature);
             [self reloadTableView];
         }
         else {
@@ -233,7 +239,7 @@
 }
 
 - (void)configureHeaderCell:(UITableViewCell *)cell title:(NSString *)title {
-    NSLog(@"configure cell");
+
     ;
     cell.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:20];
@@ -249,23 +255,6 @@
     return 60.0f;
 }
 
-//- (void)configureHourlyCell:(UITableViewCell *)cell weather:(WXCondition *)weather {
-//    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-//    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
-//    cell.textLabel.text = [self.hourlyFormatter stringFromDate:weather.date];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.0f°",weather.temperature.floatValue];
-//    cell.imageView.image = [UIImage imageNamed:[weather imageName]];
-//    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
-//}
-//
-//- (void)configureDailyCell:(UITableViewCell *)cell weather:(WXCondition *)weather {
-//    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-//    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
-//    cell.textLabel.text = [self.dailyFormatter stringFromDate:weather.date];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.0f° / %.0f°",weather.tempHigh.floatValue,weather.tempLow.floatValue];
-//    cell.imageView.image = [UIImage imageNamed:[weather imageName]];
-//    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
-//}
 
 
 #pragma mark - table view methods
@@ -291,10 +280,11 @@
 }
 
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+}
 
 
-
-///
 
 -(void) createCustomHeader {
     // 1
