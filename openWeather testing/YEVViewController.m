@@ -12,7 +12,10 @@
 #import "WeatherItem.h"
 #import "MJRootViewController.h"
 
+#import "BouncePresentTransition.h"
+#import "FXBlurView.h"
 
+#import <LMAlertView.h>
 @interface YEVViewController ()
 {
     NSString * city;
@@ -36,35 +39,32 @@
 @property (nonatomic,strong) CLLocation *location;
 
 @property (nonatomic,strong) MJRootViewController *mjrvc;
+@property (weak, nonatomic) IBOutlet FXBlurView *bluredView;
+
+
+
 @end
 
-@implementation YEVViewController
+@implementation YEVViewController 
 
-- (IBAction)swipedRight:(id)sender {
-//change transition ?
-    if (_mjrvc == nil) { //user those if only so the use wont push it twice and more
-       // UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-        _mjrvc = [self.storyboard instantiateViewControllerWithIdentifier:@"rootVC"];
 
-    }
-    [self presentViewController:_mjrvc animated:YES completion:nil];
-}
 
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
 
+    self.bluredView.blurRadius = 25;
+    self.bluredView.alpha=0;
+    //transition:
+    self.modalPresentationStyle = UIModalPresentationCustom; //1
+    
+    
     self.hourlyWeather = [[NSMutableArray alloc]init];
     self.dailyWeather = [[NSMutableArray alloc]init];
-    
-    
-
     UIImage *background = [UIImage imageNamed:@"bg"];
     self.backgroundImageView.image = background;
-//
-    self.blurredImageView = [[UIImageView alloc] init];
-    self.blurredImageView.contentMode = UIViewContentModeScaleAspectFill;
+
 //    self.blurredImageView.alpha = 0;
 //   // [self.blurredImageView setImageToBlur:background blurRadius:10 completionBlock:nil];
 //   // [self.view addSubview:self.blurredImageView];
@@ -83,6 +83,26 @@
     
     [self reloadData];
 }
+
+- (IBAction)swipedRight:(id)sender {
+    //change transition ?
+    if (_mjrvc == nil) { //user those if only so the use wont push it twice and more
+        // UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        _mjrvc = [self.storyboard instantiateViewControllerWithIdentifier:@"rootVC"];
+        
+    }
+    _mjrvc.transitioningDelegate = self;
+    [self presentViewController:_mjrvc animated:YES completion:nil];
+}
+#pragma mark - Custom animation delegate methods
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+
+    return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoLeft];
+}
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+
+return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRight];}
 
 -(void)didUpdateToLocation:(CLLocation *)newLocation
               fromLocation:(CLLocation *)oldLocation{
@@ -282,83 +302,24 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"Test"
+                                                        message:@"Message here"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Done"
+                                              otherButtonTitles:nil];
+    
+    // Add your subviews here to customise
+    UIView *contentView = alertView.contentView;
+    [alertView show];
 }
 
+#pragma mark - UIScrollViewDelegate
 
-
--(void) createCustomHeader {
-    // 1
-    CGRect headerFrame = [UIScreen mainScreen].bounds;
-    // 2
-    CGFloat inset = 20;
-    // 3
-    CGFloat temperatureHeight = 110;
-    CGFloat hiloHeight = 40;
-    CGFloat iconHeight = 30;
-    // 4
-    CGRect hiloFrame = CGRectMake(inset,
-                                  headerFrame.size.height - hiloHeight,
-                                  headerFrame.size.width - (2 * inset),
-                                  hiloHeight);
-    
-    CGRect temperatureFrame = CGRectMake(inset,
-                                         headerFrame.size.height - (temperatureHeight + hiloHeight),
-                                         headerFrame.size.width - (2 * inset),
-                                         temperatureHeight);
-    
-    CGRect iconFrame = CGRectMake(inset,
-                                  temperatureFrame.origin.y - iconHeight,
-                                  iconHeight,
-                                  iconHeight);
-    // 5
-    CGRect conditionsFrame = iconFrame;
-    conditionsFrame.size.width = self.view.bounds.size.width - (((2 * inset) + iconHeight) + 10);
-    conditionsFrame.origin.x = iconFrame.origin.x + (iconHeight + 10);
-    // 1
-    UIView *header = [[UIView alloc] initWithFrame:headerFrame];
-    header.backgroundColor = [UIColor clearColor];
-    
-    self.tableView.tableHeaderView = header;
-    
-    
-    // 2
-    // bottom left
-    UILabel *temperatureLabel = [[UILabel alloc] initWithFrame:temperatureFrame];
-    temperatureLabel.backgroundColor = [UIColor clearColor];
-    temperatureLabel.textColor = [UIColor whiteColor];
-    temperatureLabel.text = @"0°";
-    temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:120];
-    [header addSubview:temperatureLabel];
-    
-    // bottom left
-    UILabel *hiloLabel = [[UILabel alloc] initWithFrame:hiloFrame];
-    hiloLabel.backgroundColor = [UIColor clearColor];
-    hiloLabel.textColor = [UIColor whiteColor];
-    hiloLabel.text = @"0° / 0°";
-    hiloLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:28];
-    [header addSubview:hiloLabel];
-    
-    // top
-    UILabel *cityLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, 30)];
-    cityLabel.backgroundColor = [UIColor clearColor];
-    cityLabel.textColor = [UIColor whiteColor];
-    cityLabel.text = @"Loading...";
-    cityLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    cityLabel.textAlignment = NSTextAlignmentCenter;
-    [header addSubview:cityLabel];
-    
-    UILabel *conditionsLabel = [[UILabel alloc] initWithFrame:conditionsFrame];
-    conditionsLabel.backgroundColor = [UIColor clearColor];
-    conditionsLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    conditionsLabel.textColor = [UIColor whiteColor];
-    [header addSubview:conditionsLabel];
-    
-    // 3
-    // bottom left
-    UIImageView *iconView = [[UIImageView alloc] initWithFrame:iconFrame];
-    iconView.contentMode = UIViewContentModeScaleAspectFit;
-    iconView.backgroundColor = [UIColor clearColor];
-    [header addSubview:iconView];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat height = scrollView.bounds.size.height;
+    CGFloat position = MAX(scrollView.contentOffset.y, 0.0);
+    CGFloat percent = MIN(position / height, 1.0);
+    self.bluredView.alpha=percent;
 }
 
 @end

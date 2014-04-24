@@ -8,6 +8,11 @@
 
 #import "MJRootViewController.h"
 #import "MJCollectionViewCell.h"
+#import "imageTakenViewController.h"
+#import <LMAlertView.h>
+#import "LMModalSegue.h"
+
+#import "LMTwitterComposeViewController.h"
 
 @interface MJRootViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate>
 {
@@ -16,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *parallaxCollectionView;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
-
+@property (nonatomic,strong) imageTakenViewController* itvc;
 @end
 
 @implementation MJRootViewController
@@ -47,6 +52,7 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"item selected: %d",indexPath.row);
+    
 }
 
 
@@ -113,6 +119,16 @@
 
 - (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker
 {
+    LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"Test"
+                                                        message:@"Message here"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Done"
+                                              otherButtonTitles:nil];
+    
+    // Add your subviews here to customise
+    UIView *contentView = alertView.contentView;
+    
+    [alertView show];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 #pragma mark -
@@ -120,11 +136,11 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    [picker dismissViewControllerAnimated:NO completion:nil];
     // Access the uncropped image from info dictionary
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
-    // Dismiss controller
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    
     
     // Resize image
     UIGraphicsBeginImageContext(CGSizeMake(640, 960));
@@ -134,10 +150,30 @@
     
     // Upload image
     NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
-    [self uploadImage:imageData];
+    
+//    if (self.itvc == nil) { //user those if only so the use wont push it twice and more
+//    self.itvc = [self.storyboard instantiateViewControllerWithIdentifier:@"imageTakenViewController"];
+//    }
+//    self.itvc.imageTaken = smallImage;ֿ
     
     
+	
+	
+    static UINavigationController* controller;
+    if (controller == nil) { //user those if only so the use wont push it twice and more
+        controller = [self.storyboard instantiateViewControllerWithIdentifier:@"navToPost"];
+    }
+   // self.itvc.imageTaken = smallImage;
+    //[self presentViewController:controller animated:YES completion:nil];
+   // [self uploadImage:imageData];
+
     
+    // Dismiss controller
+    [picker dismissViewControllerAnimated:NO completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
+//    
+//    LMAlertView *alertView = [[LMAlertView alloc] initWithViewController:controller];
+//    [alertView show];
 }
 
 

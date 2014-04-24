@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CCB19A14190470D900F9683A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A13190470D900F9683A /* Foundation.framework */; };
-		CCB19A16190470D900F9683A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A15190470D900F9683A /* CoreGraphics.framework */; };
+		23655AD225B64DFDA7CEAF05 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 178387927733409F9BFD9401 /* libPods.a */; };
 		CCB19A18190470DA00F9683A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A17190470DA00F9683A /* UIKit.framework */; };
 		CCB19A1E190470DA00F9683A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCB19A1C190470DA00F9683A /* InfoPlist.strings */; };
 		CCB19A20190470DA00F9683A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A1F190470DA00F9683A /* main.m */; };
@@ -22,22 +21,32 @@
 		CCB19A40190470DA00F9683A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCB19A3E190470DA00F9683A /* InfoPlist.strings */; };
 		CCB19A42190470DA00F9683A /* openWeather_testingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A41190470DA00F9683A /* openWeather_testingTests.m */; };
 		CCB19A4D1904719F00F9683A /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A4C1904719F00F9683A /* LocationManager.m */; };
-		CCB19A4F1904723F00F9683A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A4E1904723F00F9683A /* CoreLocation.framework */; };
 		CCB19A521904867400F9683A /* NetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A511904867400F9683A /* NetworkClient.m */; };
 		CCB19A5619048F0000F9683A /* WeatherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB19A5519048F0000F9683A /* WeatherItem.m */; };
 		CCB19AEB1905930600F9683A /* initialHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCB19AEA1905930600F9683A /* initialHeader.xib */; };
-		CCE7C4B319069E710094E749 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4B219069E710094E749 /* Parse.framework */; };
-		CCE7C4B619069F7A0094E749 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4B419069F7A0094E749 /* AudioToolbox.framework */; };
-		CCE7C4B719069F7A0094E749 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4B519069F7A0094E749 /* CFNetwork.framework */; };
 		CCE7C4B919069F820094E749 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4B819069F820094E749 /* libz.dylib */; };
-		CCE7C4BB19069F960094E749 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BA19069F960094E749 /* QuartzCore.framework */; };
-		CCE7C4C019069FC10094E749 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BC19069FC00094E749 /* MobileCoreServices.framework */; };
-		CCE7C4C119069FC10094E749 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BD19069FC10094E749 /* Security.framework */; };
-		CCE7C4C219069FC10094E749 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BE19069FC10094E749 /* StoreKit.framework */; };
-		CCE7C4C319069FC10094E749 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BF19069FC10094E749 /* SystemConfiguration.framework */; };
 		CCE7C4C61906A1610094E749 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE7C4C51906A1610094E749 /* MBProgressHUD.m */; };
 		CCE7C4CB190716100094E749 /* MJRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE7C4C8190716100094E749 /* MJRootViewController.m */; };
 		CCE7C4CC190716100094E749 /* MJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE7C4CA190716100094E749 /* MJCollectionViewCell.m */; };
+		CCE9BD2B1907D87A00B84C78 /* BouncePresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9BD2A1907D87A00B84C78 /* BouncePresentTransition.m */; };
+		CCE9BD2E19081D9F00B84C78 /* imageTakenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9BD2D19081D9F00B84C78 /* imageTakenViewController.m */; };
+		CCE9BD31190829CB00B84C78 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9BD30190829CB00B84C78 /* FXBlurView.m */; };
+		CCF4EF0E19086E4A00A9A202 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4B519069F7A0094E749 /* CFNetwork.framework */; };
+		CCF4EF0F19086E5100A9A202 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A15190470D900F9683A /* CoreGraphics.framework */; };
+		CCF4EF1019086E6600A9A202 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A13190470D900F9683A /* Foundation.framework */; };
+		CCF4EF1119086E6F00A9A202 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB19A4E1904723F00F9683A /* CoreLocation.framework */; };
+		CCF4EF1219086E7D00A9A202 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4B419069F7A0094E749 /* AudioToolbox.framework */; };
+		CCF4EF1319086E8300A9A202 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BA19069F960094E749 /* QuartzCore.framework */; };
+		CCF4EF1419086E9500A9A202 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BF19069FC10094E749 /* SystemConfiguration.framework */; };
+		CCF4EF1519086E9A00A9A202 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BE19069FC10094E749 /* StoreKit.framework */; };
+		CCF4EF1619086EA400A9A202 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BD19069FC10094E749 /* Security.framework */; };
+		CCF4EF1719086EAA00A9A202 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE7C4BC19069FC00094E749 /* MobileCoreServices.framework */; };
+		CCF4EF1A19086F5000A9A202 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF4EF1919086F5000A9A202 /* Social.framework */; };
+		CCF4EF1C190870F600A9A202 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF4EF1B190870F600A9A202 /* Parse.framework */; };
+		CCF4EF1E1908729400A9A202 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF4EF1D1908729400A9A202 /* FacebookSDK.framework */; };
+		CCF4EF201908732F00A9A202 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF4EF1F1908732F00A9A202 /* AVFoundation.framework */; };
+		CCF4EF251908749700A9A202 /* LMTwitterComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF4EF221908749700A9A202 /* LMTwitterComposeViewController.m */; };
+		CCF4EF261908749700A9A202 /* LMTwitterLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF4EF241908749700A9A202 /* LMTwitterLocationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		178387927733409F9BFD9401 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AD14022E24B47E1A09AD8A0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		CCB19A10190470D900F9683A /* openWeather testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "openWeather testing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCB19A13190470D900F9683A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CCB19A15190470D900F9683A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -78,7 +89,6 @@
 		CCB19A5419048F0000F9683A /* WeatherItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherItem.h; sourceTree = "<group>"; };
 		CCB19A5519048F0000F9683A /* WeatherItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherItem.m; sourceTree = "<group>"; };
 		CCB19AEA1905930600F9683A /* initialHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = initialHeader.xib; sourceTree = "<group>"; };
-		CCE7C4B219069E710094E749 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		CCE7C4B419069F7A0094E749 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CCE7C4B519069F7A0094E749 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CCE7C4B819069F820094E749 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -93,6 +103,20 @@
 		CCE7C4C8190716100094E749 /* MJRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRootViewController.m; sourceTree = "<group>"; };
 		CCE7C4C9190716100094E749 /* MJCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJCollectionViewCell.h; sourceTree = "<group>"; };
 		CCE7C4CA190716100094E749 /* MJCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJCollectionViewCell.m; sourceTree = "<group>"; };
+		CCE9BD291907D87A00B84C78 /* BouncePresentTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BouncePresentTransition.h; sourceTree = "<group>"; };
+		CCE9BD2A1907D87A00B84C78 /* BouncePresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BouncePresentTransition.m; sourceTree = "<group>"; };
+		CCE9BD2C19081D9F00B84C78 /* imageTakenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imageTakenViewController.h; path = ../imageTakenViewController.h; sourceTree = "<group>"; };
+		CCE9BD2D19081D9F00B84C78 /* imageTakenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = imageTakenViewController.m; path = ../imageTakenViewController.m; sourceTree = "<group>"; };
+		CCE9BD2F190829CB00B84C78 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		CCE9BD30190829CB00B84C78 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
+		CCF4EF1919086F5000A9A202 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		CCF4EF1B190870F600A9A202 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		CCF4EF1D1908729400A9A202 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		CCF4EF1F1908732F00A9A202 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CCF4EF211908749700A9A202 /* LMTwitterComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTwitterComposeViewController.h; sourceTree = "<group>"; };
+		CCF4EF221908749700A9A202 /* LMTwitterComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTwitterComposeViewController.m; sourceTree = "<group>"; };
+		CCF4EF231908749700A9A202 /* LMTwitterLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTwitterLocationViewController.h; sourceTree = "<group>"; };
+		CCF4EF241908749700A9A202 /* LMTwitterLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTwitterLocationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,19 +124,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCF4EF201908732F00A9A202 /* AVFoundation.framework in Frameworks */,
+				CCF4EF1A19086F5000A9A202 /* Social.framework in Frameworks */,
+				CCF4EF1719086EAA00A9A202 /* MobileCoreServices.framework in Frameworks */,
+				CCF4EF1619086EA400A9A202 /* Security.framework in Frameworks */,
+				CCF4EF1519086E9A00A9A202 /* StoreKit.framework in Frameworks */,
+				CCF4EF1C190870F600A9A202 /* Parse.framework in Frameworks */,
+				CCF4EF1419086E9500A9A202 /* SystemConfiguration.framework in Frameworks */,
+				CCF4EF1319086E8300A9A202 /* QuartzCore.framework in Frameworks */,
+				CCF4EF1219086E7D00A9A202 /* AudioToolbox.framework in Frameworks */,
+				CCF4EF1119086E6F00A9A202 /* CoreLocation.framework in Frameworks */,
+				CCF4EF1019086E6600A9A202 /* Foundation.framework in Frameworks */,
+				CCF4EF0F19086E5100A9A202 /* CoreGraphics.framework in Frameworks */,
+				CCF4EF0E19086E4A00A9A202 /* CFNetwork.framework in Frameworks */,
 				CCB19A18190470DA00F9683A /* UIKit.framework in Frameworks */,
-				CCE7C4C019069FC10094E749 /* MobileCoreServices.framework in Frameworks */,
-				CCE7C4C119069FC10094E749 /* Security.framework in Frameworks */,
-				CCE7C4C219069FC10094E749 /* StoreKit.framework in Frameworks */,
-				CCE7C4C319069FC10094E749 /* SystemConfiguration.framework in Frameworks */,
-				CCE7C4BB19069F960094E749 /* QuartzCore.framework in Frameworks */,
+				CCF4EF1E1908729400A9A202 /* FacebookSDK.framework in Frameworks */,
 				CCE7C4B919069F820094E749 /* libz.dylib in Frameworks */,
-				CCE7C4B619069F7A0094E749 /* AudioToolbox.framework in Frameworks */,
-				CCE7C4B719069F7A0094E749 /* CFNetwork.framework in Frameworks */,
-				CCB19A16190470D900F9683A /* CoreGraphics.framework in Frameworks */,
-				CCB19A4F1904723F00F9683A /* CoreLocation.framework in Frameworks */,
-				CCB19A14190470D900F9683A /* Foundation.framework in Frameworks */,
-				CCE7C4B319069E710094E749 /* Parse.framework in Frameworks */,
+				23655AD225B64DFDA7CEAF05 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +164,7 @@
 				CCB19A3B190470DA00F9683A /* openWeather testingTests */,
 				CCB19A12190470D900F9683A /* Frameworks */,
 				CCB19A11190470D900F9683A /* Products */,
+				4AD14022E24B47E1A09AD8A0 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +180,10 @@
 		CCB19A12190470D900F9683A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCF4EF1F1908732F00A9A202 /* AVFoundation.framework */,
+				CCF4EF1D1908729400A9A202 /* FacebookSDK.framework */,
+				CCF4EF1B190870F600A9A202 /* Parse.framework */,
+				CCF4EF1919086F5000A9A202 /* Social.framework */,
 				CCE7C4BC19069FC00094E749 /* MobileCoreServices.framework */,
 				CCE7C4BD19069FC10094E749 /* Security.framework */,
 				CCE7C4BE19069FC10094E749 /* StoreKit.framework */,
@@ -159,12 +192,12 @@
 				CCE7C4B819069F820094E749 /* libz.dylib */,
 				CCE7C4B419069F7A0094E749 /* AudioToolbox.framework */,
 				CCE7C4B519069F7A0094E749 /* CFNetwork.framework */,
-				CCE7C4B219069E710094E749 /* Parse.framework */,
 				CCB19A4E1904723F00F9683A /* CoreLocation.framework */,
 				CCB19A13190470D900F9683A /* Foundation.framework */,
 				CCB19A15190470D900F9683A /* CoreGraphics.framework */,
 				CCB19A17190470DA00F9683A /* UIKit.framework */,
 				CCB19A35190470DA00F9683A /* XCTest.framework */,
+				178387927733409F9BFD9401 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -215,6 +248,7 @@
 		CCB19A5319048E8000F9683A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CCE9BD251907D25500B84C78 /* Transition */,
 				CCB19A4B1904719F00F9683A /* LocationManager.h */,
 				CCB19A4C1904719F00F9683A /* LocationManager.m */,
 				CCB19A501904867400F9683A /* NetworkClient.h */,
@@ -228,6 +262,8 @@
 		CCB19AE9190592BE00F9683A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CCE9BD2F190829CB00B84C78 /* FXBlurView.h */,
+				CCE9BD30190829CB00B84C78 /* FXBlurView.m */,
 				CCE7C4C9190716100094E749 /* MJCollectionViewCell.h */,
 				CCE7C4CA190716100094E749 /* MJCollectionViewCell.m */,
 				CCE7C4C41906A1610094E749 /* MBProgressHUD.h */,
@@ -241,12 +277,27 @@
 		CCB19AF419068B6E00F9683A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CCF4EF211908749700A9A202 /* LMTwitterComposeViewController.h */,
+				CCF4EF221908749700A9A202 /* LMTwitterComposeViewController.m */,
+				CCF4EF231908749700A9A202 /* LMTwitterLocationViewController.h */,
+				CCF4EF241908749700A9A202 /* LMTwitterLocationViewController.m */,
+				CCE9BD2C19081D9F00B84C78 /* imageTakenViewController.h */,
+				CCE9BD2D19081D9F00B84C78 /* imageTakenViewController.m */,
 				CCE7C4C7190716100094E749 /* MJRootViewController.h */,
 				CCE7C4C8190716100094E749 /* MJRootViewController.m */,
 				CCB19A2B190470DA00F9683A /* YEVViewController.h */,
 				CCB19A2C190470DA00F9683A /* YEVViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		CCE9BD251907D25500B84C78 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				CCE9BD291907D87A00B84C78 /* BouncePresentTransition.h */,
+				CCE9BD2A1907D87A00B84C78 /* BouncePresentTransition.m */,
+			);
+			name = Transition;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,9 +307,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCB19A45190470DA00F9683A /* Build configuration list for PBXNativeTarget "openWeather testing" */;
 			buildPhases = (
+				C482011A7018410782E0291D /* Check Pods Manifest.lock */,
 				CCB19A0C190470D900F9683A /* Sources */,
 				CCB19A0D190470D900F9683A /* Frameworks */,
 				CCB19A0E190470D900F9683A /* Resources */,
+				FB529D669AA94D62B563536E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -343,20 +396,58 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C482011A7018410782E0291D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FB529D669AA94D62B563536E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CCB19A0C190470D900F9683A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCE9BD2B1907D87A00B84C78 /* BouncePresentTransition.m in Sources */,
 				CCE7C4CB190716100094E749 /* MJRootViewController.m in Sources */,
 				CCB19A521904867400F9683A /* NetworkClient.m in Sources */,
 				CCB19A5619048F0000F9683A /* WeatherItem.m in Sources */,
 				CCB19A4D1904719F00F9683A /* LocationManager.m in Sources */,
+				CCE9BD31190829CB00B84C78 /* FXBlurView.m in Sources */,
 				CCB19A2D190470DA00F9683A /* YEVViewController.m in Sources */,
 				CCE7C4CC190716100094E749 /* MJCollectionViewCell.m in Sources */,
 				CCB19A20190470DA00F9683A /* main.m in Sources */,
 				CCB19A24190470DA00F9683A /* YEVAppDelegate.m in Sources */,
+				CCF4EF261908749700A9A202 /* LMTwitterLocationViewController.m in Sources */,
+				CCF4EF251908749700A9A202 /* LMTwitterComposeViewController.m in Sources */,
 				CCE7C4C61906A1610094E749 /* MBProgressHUD.m in Sources */,
+				CCE9BD2E19081D9F00B84C78 /* imageTakenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +571,7 @@
 		};
 		CCB19A46190470DA00F9683A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AD14022E24B47E1A09AD8A0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -498,6 +590,7 @@
 		};
 		CCB19A47190470DA00F9683A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AD14022E24B47E1A09AD8A0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
