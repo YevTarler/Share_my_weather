@@ -10,18 +10,22 @@
 #import "LocationManager.h"
 #import "NetworkClient.h"
 #import "WeatherItem.h"
-#import "MJRootViewController.h"
+#import "WeatherCollectionViewController.h"
 
 #import "BouncePresentTransition.h"
 #import "FXBlurView.h"
 
+#import <BlurryModalSegue.h>
 #import <LMAlertView.h>
+
 @interface YEVViewController ()
 {
     NSString * city;
     NSString* temp;
  
 }
+@property (strong, nonatomic) LMAlertView *ratingAlertView;
+
 @property (nonatomic,strong) NetworkClient *client;
 
 
@@ -38,7 +42,7 @@
 
 @property (nonatomic,strong) CLLocation *location;
 
-@property (nonatomic,strong) MJRootViewController *mjrvc;
+@property (nonatomic,strong) WeatherCollectionViewController *mjrvc;
 @property (weak, nonatomic) IBOutlet FXBlurView *bluredView;
 
 
@@ -87,12 +91,19 @@
 - (IBAction)swipedRight:(id)sender {
     //change transition ?
     if (_mjrvc == nil) { //user those if only so the use wont push it twice and more
-        // UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         _mjrvc = [self.storyboard instantiateViewControllerWithIdentifier:@"rootVC"];
         
     }
     _mjrvc.transitioningDelegate = self;
-    [self presentViewController:_mjrvc animated:YES completion:nil];
+    
+    BlurryModalSegue *bms = [[BlurryModalSegue alloc] initWithIdentifier:@"" source:self destination:_mjrvc];
+    
+    bms.backingImageBlurRadius = @(1);
+   bms.backingImageSaturationDeltaFactor = @(1.8);
+    bms.backingImageTintColor = [UIColor colorWithWhite:0.11 alpha:0.73] ;
+    
+    [bms perform];
+
 }
 #pragma mark - Custom animation delegate methods
 
@@ -301,18 +312,28 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"Test"
-                                                        message:@"Message here"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Done"
-                                              otherButtonTitles:nil];
+    LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"Test" message:@"Message here" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     
-    // Add your subviews here to customise
-    UIView *contentView = alertView.contentView;
-    [alertView show];
-}
+    //[alertView addButtonWithTitle:@"3rd"];
 
+	NSLog(@"%@: First other button index: %li", [alertView class], (long)alertView.firstOtherButtonIndex);
+	NSLog(@"%@: Cancel button index: %li", [alertView class], (long)alertView.cancelButtonIndex);
+	NSLog(@"%@: Number of buttons: %li", [alertView class], (long)alertView.numberOfButtons);
+	
+	[alertView show];
+    
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"called");
+    if ([segue isKindOfClass:[BlurryModalSegue class]])
+    {
+        BlurryModalSegue* bms = (BlurryModalSegue*)segue;
+        
+        bms.backingImageBlurRadius = @(3);
+        bms.backingImageSaturationDeltaFactor = @(.05);
+        bms.backingImageTintColor = [[UIColor blackColor] colorWithAlphaComponent:.1];
+    }
+}
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

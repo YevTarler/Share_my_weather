@@ -9,6 +9,7 @@
 #import "YEVAppDelegate.h"
 #import "LocationManager.h"
 #import <Parse/Parse.h>
+#import <BlurryModalSegue.h>
 
 @implementation YEVAppDelegate
 
@@ -18,6 +19,11 @@
     [Parse setApplicationId:@"chdpGRGS9YUA0Jb4tpLGuhfT2bnUnEBjg8pWcWxE"
                   clientKey:@"QyZiEMcNC1Vm1cQjbawVgPOIB0Zdhd6zevTQxm7i"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    [[BlurryModalSegue appearance] setBackingImageBlurRadius:@(20)];
+    [[BlurryModalSegue appearance] setBackingImageSaturationDeltaFactor:@(.45)];
+    
+    return YES;
     
     return YES;
 }

@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 extern NSString * const kLocationDidChangeNotificationKey; //will be used to signal location changes.
+extern NSString * const kAddressOfCurrentLocationNotificationKey; //will be used to signal reverse geocoding
 
 @interface LocationManager : NSObject
 
@@ -21,6 +22,6 @@ extern NSString * const kLocationDidChangeNotificationKey; //will be used to sig
 
 - (void)startMonitoringLocationChanges;
 - (void)stopMonitoringLocationChanges;
-
+-(void) getAddressOfCurrentLocation;
 
 @end
