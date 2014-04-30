@@ -36,6 +36,9 @@
 -(void) addWeatherUpload:(WeatherPhotoUpload*) weatherUpload{
     [self.weatherUploadData addObject:weatherUpload];
 }
+-(void) pushWeatherUploadToBeginning:(WeatherPhotoUpload*)weatherUpload{
+    [self.weatherUploadData insertObject:weatherUpload atIndex:0];
+}
 -(NSArray *) getAllWeatherUploads{
     return self.weatherUploadData;
 }
@@ -45,5 +48,11 @@
 }
 -(void) removeWeatherUploadAtIndex:(NSInteger) index{
     [self.weatherUploadData removeObjectAtIndex:index];
+}
+-(void) removeAllObjects {
+    [self.weatherUploadData removeAllObjects];
+}
+-(void) removeLastWeatherObject{
+    [self.weatherUploadData removeLastObject];
 }
 @end

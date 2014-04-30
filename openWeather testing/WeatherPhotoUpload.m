@@ -19,12 +19,14 @@
 -(instancetype) initWithName: (NSString*)name Image:(UIImage*)image ImageDescription:(NSString*)desc {
     self = [super init];
     if(self) {
-        _uploaderDescription = @"none";
+        _uploaderDescription = @"No description given";
         if (![desc isEqualToString: kDescriptionPlaceHolder]) {
             _uploaderDescription = desc;
         }
-        _uploaderDescription = [NSString stringWithString:desc];
-        _uploaderName = [NSString stringWithString:name];
+        _uploaderName = @"Anonymous";
+        if (![name isEqualToString:@""]) {
+            _uploaderName =name;
+        }
         _uploaderImage = [[UIImage alloc] init];
         _uploaderImage = image;
     }

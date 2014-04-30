@@ -15,8 +15,10 @@
 
 + (WeatherPhotoUploadStore *)sharedWeatherUploadsStore;
 -(void) addWeatherUpload:(WeatherPhotoUpload*) weatherUpload;
+-(void) pushWeatherUploadToBeginning:(WeatherPhotoUpload*)weatherUpload;
 -(NSArray *) getAllWeatherUploads;
 -(WeatherPhotoUpload *) getWeatherUploadAtIndex:(NSInteger) index;
 -(void) removeWeatherUploadAtIndex:(NSInteger) index;
-
+-(void) removeAllObjects;
+-(void) removeLastWeatherObject;
 @end

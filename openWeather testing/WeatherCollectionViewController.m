@@ -20,19 +20,28 @@
 
 #import "WeatherPhotoUpload.h"
 #import "WeatherPhotoUploadStore.h"
+#import "YEVClearToolbar.h"
+#import "WeatherUploadDetailViewController.h"
 
 
-@interface WeatherCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate>
+#import "WeatherPhotoDetailViewController.h"
+#import "TGRImageZoomAnimationController.h"
+
+@interface WeatherCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,UIViewControllerTransitioningDelegate>
 {
     UIRefreshControl *_refreshControl;
     BOOL dataDownloaded ;
+    BOOL imageSelected ;
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *parallaxCollectionView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cameraBarButton;
+@property (weak, nonatomic) IBOutlet YEVClearToolbar *toolbar;
 
-@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic,strong) NSData *imageData;
 @property (nonatomic,strong) UIImage *imageNeto;
 @property (nonatomic,strong) preUploadViewController *preShareVC;
+
+@property (nonatomic,strong) UIImageView *clickedImageView;
 @end
 
 @implementation WeatherCollectionViewController
@@ -41,7 +50,8 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+
+    imageSelected = NO;
     dataDownloaded = NO;
     allWeatherUploads = [[NSMutableArray alloc] init];
     [self getPhotosFromNetwork];
@@ -55,31 +65,27 @@
     
     
 	// Do any additional setup after loading the view, typically from a nib.
-    self.toolBar.backgroundColor = [UIColor clearColor];
-    
     
     
     
     [self.parallaxCollectionView reloadData];
 }
 -(void) refershControlAction {
+    
+    [[WeatherPhotoUploadStore sharedWeatherUploadsStore] removeAllObjects];
+
     [self getPhotosFromNetwork];
 }
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"item selected: %d",indexPath.row);
 
-	[UIView animateWithDuration:0.4 animations:^{
-		// pop.view.alpha = 1.0f;
-	}];
-    
-}
 
 #pragma mark - PARSING NETWORK DATA METHODS
 
 - (void)uploadWeatherObject:(WeatherPhotoUpload *)WeatherPhotoUpload{
     
-    NSData *imageData = UIImageJPEGRepresentation(WeatherPhotoUpload.uploaderImage, 0.05f);
+    NSData *imageData = UIImageJPEGRepresentation(WeatherPhotoUpload.uploaderImage, 0.5f);
     PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data: imageData];
+    
+
     
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
@@ -90,6 +96,10 @@
     [HUD show:YES];
     
     // Save PFFile
+    NSData *thumbnailData = UIImageJPEGRepresentation(WeatherPhotoUpload.thumbnail, 0.5f);
+    PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnailImage.jpg" data: thumbnailData];
+    [thumbnailFile saveInBackground];
+    
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error){
             [HUD hide:YES];
@@ -98,6 +108,12 @@
             
         }
         else {
+
+            
+            //    NSData *imageData = UIImagePNGRepresentation(thumbnail);
+            //    PFFile *imageFile = [PFFile fileWithName:@"thumbnailImage.png" data:imageData];
+            //    [imageFile save];
+            
             //Hide determinate HUD
             [HUD hide:YES];
             // Show checkmark
@@ -110,11 +126,19 @@
             
             // Setting PARSE object:
             PFObject *weatherUpload = [PFObject objectWithClassName:@"WeatherPhoto"];
+            
             [weatherUpload setObject:imageFile forKey:@"imageFile"];
+            [weatherUpload setObject:thumbnailFile forKey:@"thumbnailFile"];
+            
             weatherUpload[@"name"] = WeatherPhotoUpload.uploaderName;
             weatherUpload[@"describtion"] = WeatherPhotoUpload.uploaderDescription;
             weatherUpload[@"city"] = WeatherPhotoUpload.uploaderLocationCity;
-       
+            
+            //TODO: SET GEOLOCATION
+            PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:WeatherPhotoUpload.locationWherePictureTaken.coordinate.latitude
+                                                          longitude:WeatherPhotoUpload.locationWherePictureTaken.coordinate.longitude];
+            [weatherUpload setObject:geoPoint forKey:@"location"];
+            
             [weatherUpload saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (error) {
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
@@ -123,7 +147,6 @@
                 else{
                     // We might want to update the local dataModel ?
                     
-                    //[[WeatherPhotoUploadStore sharedWeatherUploadsStore] addWeatherUpload:WeatherPhotoUpload];
                     [self addWeatherPhotoObject:weatherUpload];
                    // [self refresh:nil];
                     
@@ -138,22 +161,18 @@
 }
 
 -(void) addWeatherPhotoObject: (PFObject*)weatherPhoto {
-   // NSArray *allWeatherUploads = [[WeatherPhotoUploadStore sharedWeatherUploadsStore] getAllWeatherUploads];
-    [allWeatherUploads addObject:weatherPhoto];
+    [allWeatherUploads insertObject:weatherPhoto atIndex:0];
     if (allWeatherUploads.count >14) { //show only X
-       // [[WeatherPhotoUploadStore sharedWeatherUploadsStore] removeWeatherUploadAtIndex:0];
-        PFObject* firstObj = allWeatherUploads[0];
-        [firstObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        PFObject* lastObj = [allWeatherUploads lastObject];
+        [lastObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 NSLog(@"succesfully deleted");
-                [allWeatherUploads removeObjectAtIndex:0];
+                [allWeatherUploads removeLastObject];
+                [[WeatherPhotoUploadStore sharedWeatherUploadsStore] removeLastWeatherObject];
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         [self.parallaxCollectionView reloadData];
         
     }];
-                //[self setUpImages:allWeatherUploads];
-                
-                //TODO: FIX HERE, TRY REMOVING ALL MAYBE
             }
             else{
                 NSLog(@"error has eccured");
@@ -162,6 +181,7 @@
     }
     else {
         [self.parallaxCollectionView reloadData];
+            NSLog(@"count of allWeatherUploads: %lu storedata: %lu", (unsigned long)allWeatherUploads.count,(unsigned long)[[WeatherPhotoUploadStore sharedWeatherUploadsStore] getAllWeatherUploads].count);
     }
 }
 
@@ -175,7 +195,7 @@
     [refreshHUD show:YES];
     
     PFQuery *query = [PFQuery queryWithClassName:@"WeatherPhoto"];
-    [query orderByAscending:@"createdAt"];
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if(error) {
             [refreshHUD hide:YES];
@@ -195,11 +215,12 @@
                 refreshHUD.mode = MBProgressHUDModeCustomView;
                 refreshHUD.delegate = self;
             }
-            NSLog(@"Successfully retrieved %d weather objects.", objects.count);
             NSMutableArray *newObjectIDArray = [NSMutableArray array];
             if (objects.count > 0) {
+                int i=0;
                 for (PFObject *eachObject in objects) {
                     [newObjectIDArray addObject:[eachObject objectId]];
+                    NSLog(@"date of obj in index %d is: %@",i,eachObject[@"createdAt"]);
                 }
             }
             /*
@@ -211,9 +232,12 @@
             if (objects.count > 0) {
                 allWeatherUploads = [NSMutableArray arrayWithArray:objects];
             }
+            // TODO: check what ascending means?
+
+            
             dataDownloaded = YES;
             [self.parallaxCollectionView reloadData];
-            
+
 
         }
     }];
@@ -230,7 +254,7 @@
 
 
 - (IBAction)swipeBack:(id)sender {
-    NSLog(@"swiped back");
+
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)takePhoto:(id)sender {
@@ -260,38 +284,49 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+
+    
     [picker dismissViewControllerAnimated:NO completion:nil];
     // Access the uncropped image from info dictionary
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
     
     
-    // Resize image
-    UIGraphicsBeginImageContext(CGSizeMake(640, 960));
-    [image drawInRect: CGRectMake(0, 0, 640, 960)];
-    //[image drawInRect: CGRectMake(0, 0, 640, 640)];
-    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // UIImage *original = <original UIImage>;
+    CGSize thumbnailSize = CGSizeMake(image.size.width*0.07, image.size.height*0.07);
+    UIGraphicsBeginImageContextWithOptions(thumbnailSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height)];
+    UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    self.imageNeto = smallImage;
-    // Upload image
-  //  self.imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
-    
+    CGSize newSize = CGSizeMake(image.size.width*0.20, image.size.height*0.20);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *compressedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
 	
      UINavigationController* navCont = [self.storyboard instantiateViewControllerWithIdentifier:@"navToPost"];
     self.preShareVC =(preUploadViewController*) [navCont topViewController];
-    self.preShareVC.imageFromController = smallImage;
+    self.preShareVC.imageFromController = thumbnail;
     
     __unsafe_unretained typeof(self) weakSelf = self;
-    self.preShareVC.callback = ^(NSString *name, NSString *description, NSString *city) {
-
-        NSLog(@"name: %@ description: %@", name,description);
+    self.preShareVC.callback = ^(NSString *name, NSString *description, NSString *city, CLLocation *location) {
         
-        WeatherPhotoUpload *newWeatherUpload = [[WeatherPhotoUpload alloc] initWithName:name Image:smallImage ImageDescription:description];
+        // I DONT THINK I NEED ALL THOSE PARAMS but its 3 am
+        WeatherPhotoUpload *newWeatherUpload = [[WeatherPhotoUpload alloc] initWithName:name Image:compressedImage ImageDescription:description];
+        newWeatherUpload.thumbnail = thumbnail;
+        newWeatherUpload.locationWherePictureTaken = location;
+        
+        //not realy needed
+        [[WeatherPhotoUploadStore sharedWeatherUploadsStore] pushWeatherUploadToBeginning:newWeatherUpload];
+        
+        
         newWeatherUpload.uploaderLocationCity = @"none";
         if (city)
             newWeatherUpload.uploaderLocationCity = city;
-        
+        //TODO: YOU ARE HERE: check it
         [weakSelf uploadWeatherObject:newWeatherUpload];
     };
     LMAlertView *alertView = [[LMAlertView alloc] initWithViewController:navCont];
@@ -301,13 +336,51 @@
     [picker dismissViewControllerAnimated:NO completion:nil];
 
 }
-
+-(void) compressImageBySize:(UIImage*) image{
+    CGFloat compression = 0.9f;
+    CGFloat maxCompression = 0.1f;
+    int maxFileSize = 250*1024;
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, compression);
+    
+    while ([imageData length] > maxFileSize && compression > maxCompression)
+    {
+        compression -= 0.1;
+        imageData = UIImageJPEGRepresentation(image, compression);
+    }
+    
+}
 - (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - UICollectionViewDatasource Methods
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    MJCollectionViewCell *cell =nil;
+    if(indexPath.row ==0)
+        //smth
+        cell = (MJCollectionViewCell*) [self.parallaxCollectionView cellForItemAtIndexPath: indexPath];
+    else
+        cell =  (MJCollectionViewCell*)[self.parallaxCollectionView viewWithTag:indexPath.row];
+    
+    NSLog(@"the index is %d",indexPath.row);
+    self.clickedImageView = cell.MJImageView;
+    WeatherPhotoDetailViewController *weatherDetail = [[WeatherPhotoDetailViewController alloc] initWithImage:self.clickedImageView.image];
+    weatherDetail.weatherParseObject = (PFObject *)[allWeatherUploads objectAtIndex:indexPath.row];
+    weatherDetail.transitioningDelegate = self;
+    [self presentViewController:weatherDetail animated:YES completion:nil];
+    
+
+ //   WeatherPhotoDetailViewController *viewController =
+//    WeatherPhotoDetailViewController *viewController = [[WeatherPhotoDetailViewController alloc] initWithImage:chosenWeatherUpload.uploaderImage name:chosenWeatherUpload.uploaderName describtion:chosenWeatherUpload.uploaderDescription city:@"check"]; //chosenWeatherUpload.uploaderLocationCity
+//    viewController.transitioningDelegate = self;
+//    [self presentViewController:viewController animated:YES completion:nil];
+    
+    
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (dataDownloaded) {
         return allWeatherUploads.count;
@@ -319,22 +392,52 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MJCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MJCell" forIndexPath:indexPath];
     
-    NSInteger count = allWeatherUploads.count-1;
-    PFObject *theObject = (PFObject *)[allWeatherUploads objectAtIndex:count - indexPath.row];
-    PFFile *theImage = [theObject objectForKey:@"imageFile"];
+    
+    //NSInteger count = allWeatherUploads.count-1;
+    PFObject *parseObj = (PFObject *)[allWeatherUploads objectAtIndex:indexPath.row];
+    cell.tag = indexPath.row;
+    
+    PFFile *theImage = [parseObj objectForKey:@"thumbnailFile"];
     __block NSData *imageData;
     [theImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         imageData = data;
         UIImage *selectedPhoto = [UIImage imageWithData:imageData];
+        
+       //  WeatherPhotoUpload *wpu = [[WeatherPhotoUpload alloc] initWithName:parseObj[@"name"] Image:selectedPhoto ImageDescription:parseObj[@"describtion"]];
+       // [[WeatherPhotoUploadStore sharedWeatherUploadsStore] addWeatherUpload:wpu ];
+        
         cell.image = selectedPhoto;
-    } progressBlock:nil];
-
-    CGFloat yOffset = ((self.parallaxCollectionView.contentOffset.y - cell.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
-    cell.imageOffset = CGPointMake(0.0f, yOffset);
-    
+        
+        CGFloat yOffset = ((self.parallaxCollectionView.contentOffset.y - cell.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
+        cell.imageOffset = CGPointMake(0.0f, yOffset);
+    } progressBlock:^(int percentDone) {
+        
+    }];
     return cell;
     
 }
+
+//NOT USED !
+-(void) syncParseObjectWithLocalData {
+    
+    for (PFObject *parseObj in allWeatherUploads) {
+        PFFile *theImage = [parseObj objectForKey:@"imageFile"];
+        __block NSData *imageData;
+        [theImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            imageData = data;
+            UIImage *selectedPhoto = [UIImage imageWithData:imageData];
+            WeatherPhotoUpload *wpu = [[WeatherPhotoUpload alloc] initWithName:parseObj[@"name"] Image:selectedPhoto ImageDescription:parseObj[@"describtion"]];
+            NSLog(@"PARSE: %@, %@", parseObj[@"name"],parseObj[@"describtion"] );
+            [[WeatherPhotoUploadStore sharedWeatherUploadsStore] addWeatherUpload:wpu ];
+        } progressBlock:^(int percentDone) {
+            
+        }];
+
+    }
+   
+    
+}
+
 
 
 #pragma mark - UIScrollViewdelegate methods
@@ -353,6 +456,24 @@
     // Remove HUD from screen when the HUD hides
     [HUD removeFromSuperview];
 	HUD = nil;
+}
+
+//transition to show the images
+#pragma mark - UIViewControllerTransitioningDelegate methods
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    if ([presented isKindOfClass:WeatherPhotoDetailViewController.class]) {
+        return [[TGRImageZoomAnimationController alloc] initWithReferenceImageView:self.clickedImageView];
+    }
+    return nil;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    if ([dismissed isKindOfClass:WeatherPhotoDetailViewController.class]) {
+        
+        return [[TGRImageZoomAnimationController alloc] initWithReferenceImageView:self.clickedImageView];
+    }
+    return nil;
 }
 
 @end

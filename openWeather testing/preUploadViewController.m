@@ -59,7 +59,7 @@ NSString* const kDescriptionPlaceHolder = @"Hey :) tell me your thoughts about t
     self.description = self.descriptionTextView.text;
     
     if (self.callback)
-        self.callback(self.name, self.description, self.locationCity);
+        self.callback(self.name, self.description, self.locationCity, self.location);
     
     [self.descriptionTextView resignFirstResponder];
 	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -97,6 +97,7 @@ NSString* const kDescriptionPlaceHolder = @"Hey :) tell me your thoughts about t
     if (self.locationCity) {
         self.locationCity = nil;
         cell.detailTextLabel.text = @"None";
+        cell.detailTextLabel.textColor = [UIColor grayColor];
         
     }
 	else{
@@ -126,6 +127,7 @@ NSString* const kDescriptionPlaceHolder = @"Hey :) tell me your thoughts about t
         NSDictionary *userInfo = notification.userInfo; //get the data
         NSError *error = [userInfo valueForKey:@"error"];
         if (error) {
+            [self dismissViewControllerAnimated:NO completion:nil];
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [alert show];
             return;
@@ -135,6 +137,7 @@ NSString* const kDescriptionPlaceHolder = @"Hey :) tell me your thoughts about t
         [acitivityIndicatorView stopAnimating];
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
        cell.detailTextLabel.text = self.locationCity;
+        cell.detailTextLabel.textColor = [[[[UIApplication sharedApplication] delegate] window] tintColor];
 
 }
 }

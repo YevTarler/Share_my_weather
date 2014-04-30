@@ -14,5 +14,8 @@
 @property (nonatomic,strong,readonly) NSString *uploaderDescription;
 @property (nonatomic,strong,readonly) UIImage *uploaderImage;
 @property (nonatomic,strong) NSString* uploaderLocationCity;
+@property (nonatomic,strong) UIImage* thumbnail;
+@property (nonatomic,strong) CLLocation *locationWherePictureTaken;
+
 -(instancetype) initWithName: (NSString*)name Image:(UIImage*)image ImageDescription:(NSString*)desc;
 @end

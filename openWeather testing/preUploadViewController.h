@@ -19,13 +19,13 @@ extern NSString* const kDescriptionPlaceHolder;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (nonatomic,strong) UIImage * imageFromController;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (nonatomic,strong) CLLocation *location;
 
+@property (nonatomic,strong) CLLocation *location;
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* description;
 @property (nonatomic,strong) NSString* locationCity;
 
 //block callback:
-@property (copy) void(^callback)(NSString *name, NSString *description, NSString *locationCity);
+@property (copy) void(^callback)(NSString *name, NSString *description, NSString *locationCity, CLLocation *location);
 
 @end

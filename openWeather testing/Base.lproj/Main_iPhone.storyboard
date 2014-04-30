@@ -38,16 +38,6 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bTG-LT-BKP">
-                                    <rect key="frame" x="0.0" y="66" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <segue destination="y1U-t8-Kpz" kind="custom" customClass="LMModalSegue" id="Bdi-c5-iqW"/>
-                                    </connections>
-                                </button>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="oBS-UW-5id" detailTextLabel="yDh-qD-Ghg" imageView="Fc2-Hb-QoY" style="IBUITableViewCellStyleValue1" id="3M9-Io-lUa">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -91,7 +81,7 @@
                         <outlet property="backgroundImageView" destination="SYD-Lb-TJO" id="yP1-GV-2N7"/>
                         <outlet property="bluredView" destination="eha-Rm-P9M" id="TeA-Zd-6PG"/>
                         <outlet property="tableView" destination="9Hd-VR-aSn" id="hif-uJ-bit"/>
-                        <segue destination="ZtF-YH-Y7X" kind="custom" identifier="swipeRight" customClass="BlurryModalSegue" id="Yug-nu-24W"/>
+                        <segue destination="ZtF-YH-Y7X" kind="modal" identifier="swipeRight" customClass="BlurryModalSegue" id="Yug-nu-24W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -111,7 +101,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UN3-kS-Oac" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="769" y="319"/>
+            <point key="canvasLocation" x="875" y="436"/>
         </scene>
         <!--Pre Upload View Controller - Location-->
         <scene sceneID="teD-mp-Tbw">
@@ -121,6 +111,7 @@
                         <rect key="frame" x="0.0" y="44" width="290" height="195"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection id="UJr-RC-iUX">
                                 <cells>
@@ -170,11 +161,11 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="98E-Q0-s8W" detailTextLabel="gLE-I3-8jh" style="IBUITableViewCellStyleValue1" id="XYY-HG-f2e">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="98E-Q0-s8W" detailTextLabel="gLE-I3-8jh" style="IBUITableViewCellStyleValue1" id="XYY-HG-f2e">
                                         <rect key="frame" x="0.0" y="152" width="290" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XYY-HG-f2e" id="g6L-cU-SA7">
-                                            <rect key="frame" x="0.0" y="0.0" width="243" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="290" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="98E-Q0-s8W">
@@ -185,7 +176,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="None" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gLE-I3-8jh">
-                                                    <rect key="frame" x="202" y="11" width="41" height="21"/>
+                                                    <rect key="frame" x="234" y="11" width="41" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -206,11 +197,13 @@
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="Location" id="feJ-ZP-c2r">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="xgl-gk-TWL">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelButtonTapped:" destination="hlV-sc-3m3" id="VFR-fW-t7H"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="OxY-wY-2dE">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="shareButtonPushed:" destination="hlV-sc-3m3" id="AAl-LG-fjB"/>
                             </connections>
@@ -565,17 +558,23 @@
                                     <outlet property="delegate" destination="ZtF-YH-Y7X" id="Rdf-GW-h6Q"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K3t-Et-e6z">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K3t-Et-e6z" customClass="YEVClearToolbar">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <barButtonItem title="Camera" id="rNf-bf-S7d">
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="e4r-kh-deb">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="UIButtonBarCameraSmall" style="done" id="rNf-bf-S7d">
+                                        <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <connections>
                                             <action selector="takePhoto:" destination="ZtF-YH-Y7X" id="7ka-De-do9"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -585,8 +584,9 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="cameraBarButton" destination="rNf-bf-S7d" id="DSh-3I-1fq"/>
                         <outlet property="parallaxCollectionView" destination="tNA-kn-ILR" id="wG6-qK-ybE"/>
-                        <outlet property="toolBar" destination="K3t-Et-e6z" id="n1E-hk-c5o"/>
+                        <outlet property="toolbar" destination="K3t-Et-e6z" id="FVJ-tW-3ik"/>
                         <segue destination="y1U-t8-Kpz" kind="custom" customClass="LMModalSegue" id="0QU-ZS-qRf"/>
                     </connections>
                 </viewController>
@@ -604,17 +604,96 @@
             </objects>
             <point key="canvasLocation" x="539" y="-152"/>
         </scene>
+        <!--Weather Upload Detail View Controller-->
+        <scene sceneID="RK5-iz-x1Z">
+            <objects>
+                <viewController storyboardIdentifier="WeatherUploadDetail" id="YNH-YI-1Ff" customClass="WeatherUploadDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Wax-tT-9dP"/>
+                        <viewControllerLayoutGuide type="bottom" id="1mM-DL-6ae"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="O6K-YJ-VOt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gG3-vL-U2P">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bJ0-37-bth">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <gestureRecognizers/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By: PLACEHOLDER" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7Q-Cz-CQr">
+                                <rect key="frame" x="20" y="450" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RX7-0W-zgH">
+                                <rect key="frame" x="20" y="486" width="280" height="69"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.93000000000000005" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQJ-Bs-ehw">
+                                <rect key="frame" x="0.0" y="-13" width="120" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="ftO-nf-j3P" appends="YES" id="nXw-6u-Bjc"/>
+                                    <outletCollection property="gestureRecognizers" destination="PQi-0S-ssd" appends="YES" id="dGh-dF-8Rd"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                    </view>
+                    <navigationItem key="navigationItem" id="96u-If-N2D">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="xIO-k5-XC9"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="3wf-KN-eYR"/>
+                    </navigationItem>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="describtionTextField" destination="RX7-0W-zgH" id="KMM-mM-PsG"/>
+                        <outlet property="imageView" destination="bJ0-37-bth" id="lJZ-wz-mmF"/>
+                        <outlet property="nameLabel" destination="g7Q-Cz-CQr" id="5Rw-So-9wd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kbX-BN-yoe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="PQi-0S-ssd">
+                    <connections>
+                        <action selector="doubleTap:" destination="YNH-YI-1Ff" id="d9Z-uD-m24"/>
+                        <outlet property="delegate" destination="dQJ-Bs-ehw" id="pRW-b8-9la"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="ftO-nf-j3P">
+                    <connections>
+                        <action selector="swipeLeft:" destination="YNH-YI-1Ff" id="HQD-zO-iW1"/>
+                        <outlet property="delegate" destination="dQJ-Bs-ehw" id="ogf-v1-nZ7"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1076" y="-391"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="UIButtonBarCameraSmall" width="25" height="19"/>
         <image name="bg" width="320" height="568"/>
         <image name="weather-broken" width="32" height="32"/>
     </resources>
+    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="Bdi-c5-iqW"/>
-    </inferredMetricsTieBreakers>
 </document>

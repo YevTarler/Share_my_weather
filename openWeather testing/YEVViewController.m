@@ -52,12 +52,14 @@
 @implementation YEVViewController 
 
 
-
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
 
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self selector:@selector(receivedBackgroundNotification:) name:@"backgroundImageNotification" object:nil];
+    
     self.bluredView.blurRadius = 25;
     self.bluredView.alpha=0;
     //transition:
@@ -67,19 +69,14 @@
     self.hourlyWeather = [[NSMutableArray alloc]init];
     self.dailyWeather = [[NSMutableArray alloc]init];
     UIImage *background = [UIImage imageNamed:@"bg"];
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.image = background;
 
-//    self.blurredImageView.alpha = 0;
-//   // [self.blurredImageView setImageToBlur:background blurRadius:10 completionBlock:nil];
-//   // [self.view addSubview:self.blurredImageView];
-//    
+  
     self.tableView.backgroundColor = [UIColor clearColor];
-//    [self.tableView setOpaque: NO];
     UIView *headerV = self.headerView;
     self.tableView.tableHeaderView = headerV;
     self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.2];
-   // [self createCustomHeader];
-    
 
     
     self.location = [[LocationManager sharedManager] currentLocation];
@@ -87,7 +84,32 @@
     
     [self reloadData];
 }
+-(void)viewWillAppear:(BOOL)animated {
+    self.bluredView.blurRadius = 25;
+    self.bluredView.alpha=0;
+    //transition:
 
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+    UIView *headerV = self.headerView;
+    self.tableView.tableHeaderView = headerV;
+    self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.2];
+    
+    
+    self.location = [[LocationManager sharedManager] currentLocation];
+    //
+    
+    [self reloadData];
+}
+-(void) receivedBackgroundNotification: (NSNotification*) notification {
+    
+    if ([notification.name isEqualToString:@"backgroundImageNotification"]) {
+        NSLog(@"background recieved");
+        UIImage *newBackground = notification.userInfo[@"backgroundImage"];
+        self.backgroundImageView.image = newBackground;
+        [self reloadData];
+    }
+}
 - (IBAction)swipedRight:(id)sender {
     //change transition ?
     if (_mjrvc == nil) { //user those if only so the use wont push it twice and more
@@ -103,6 +125,8 @@
     bms.backingImageTintColor = [UIColor colorWithWhite:0.11 alpha:0.73] ;
     
     [bms perform];
+    
+    //[self presentViewController:_mjrvc animated:YES completion:nil];
 
 }
 #pragma mark - Custom animation delegate methods

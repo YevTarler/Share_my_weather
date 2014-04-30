@@ -18,7 +18,7 @@
  
  */
 @property (nonatomic, strong, readwrite) UIImage *image;
-
+@property (nonatomic, strong, readwrite) UIImageView *MJImageView;
 /*
  Image will always animate according to the imageOffset provided. Higher the value means higher offset for the image
  */
