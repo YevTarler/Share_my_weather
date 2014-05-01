@@ -19,6 +19,8 @@
     MBProgressHUD *refreshHUD;
 }
 @property (nonatomic, strong) NSMutableArray* images;
+@property (nonatomic, assign) CLLocationDistance radius;
+@property (nonatomic) BOOL showAll;
 
 - (void)uploadImage:(NSData *)imageData;
 - (void)setUpImages:(NSArray *)images;

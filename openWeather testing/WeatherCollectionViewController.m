@@ -22,10 +22,11 @@
 #import "WeatherPhotoUploadStore.h"
 #import "YEVClearToolbar.h"
 #import "WeatherUploadDetailViewController.h"
-
+#import "LocationManager.h"
 
 #import "WeatherPhotoDetailViewController.h"
 #import "TGRImageZoomAnimationController.h"
+#import "SearchViewController.h"
 
 @interface WeatherCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,UIViewControllerTransitioningDelegate>
 {
@@ -42,6 +43,11 @@
 @property (nonatomic,strong) preUploadViewController *preShareVC;
 
 @property (nonatomic,strong) UIImageView *clickedImageView;
+
+//tabbar hiding:
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (nonatomic) CGRect originalFrame;
+
 @end
 
 @implementation WeatherCollectionViewController
@@ -50,7 +56,10 @@
 
 - (void)viewDidLoad
 {
-
+    [super viewDidLoad];
+    self.showAll = YES;
+    
+    
     imageSelected = NO;
     dataDownloaded = NO;
     allWeatherUploads = [[NSMutableArray alloc] init];
@@ -69,6 +78,12 @@
     
     
     [self.parallaxCollectionView reloadData];
+}
+//tabbar hiding:
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
+    self.originalFrame = self.tabBarController.tabBar.frame;
 }
 -(void) refershControlAction {
     
@@ -195,6 +210,14 @@
     [refreshHUD show:YES];
     
     PFQuery *query = [PFQuery queryWithClassName:@"WeatherPhoto"];
+    CLLocation *location = [[LocationManager sharedManager] currentLocation];
+    if (!self.showAll) {
+        CGFloat kilometers = self.radius/1000.0f;
+        [query whereKey:@"location"
+           nearGeoPoint:[PFGeoPoint geoPointWithLatitude:location.coordinate.latitude
+                                               longitude:location.coordinate.longitude] withinKilometers:kilometers];
+    }
+
     [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if(error) {
@@ -441,11 +464,21 @@
 
 
 #pragma mark - UIScrollViewdelegate methods
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     for(MJCollectionViewCell *view in self.parallaxCollectionView.visibleCells) {
         CGFloat yOffset = ((self.parallaxCollectionView.contentOffset.y - view.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
         view.imageOffset = CGPointMake(0.0f, yOffset);
     }
+    
+    //hiding tabbar:
+    //hiding:
+    UITabBar *tb = self.tabBarController.tabBar;
+    NSInteger yOffset = scrollView.contentOffset.y;
+    if (yOffset > 0) {
+        tb.frame = CGRectMake(tb.frame.origin.x, self.originalFrame.origin.y + yOffset, tb.frame.size.width, tb.frame.size.height);
+    }
+    if (yOffset < 1) tb.frame = self.originalFrame;
 }
 
 
@@ -476,4 +509,10 @@
     return nil;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showSearch"]) {
+        // Search button
+        [segue.destinationViewController setInitialLocation:[[LocationManager sharedManager] currentLocation]];
+    }
+}
 @end
