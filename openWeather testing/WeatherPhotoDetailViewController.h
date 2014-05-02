@@ -41,7 +41,7 @@
 @property (strong,nonatomic,readonly) NSString *city;
 @property (nonatomic,strong) PFObject *weatherParseObject;
 
-- (id)initWithImage:(UIImage *)image name:(NSString*) name describtion:(NSString*)desc city:(NSString*)city;
+- (id)initWithImage:(UIImage *)image name:(NSString*) name description:(NSString*)desc city:(NSString*)city;
 // Initializes the receiver with the specified image.
 - (id)initWithImage:(UIImage *)image;
 

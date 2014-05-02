@@ -50,7 +50,7 @@
     
     return self;
 }
-- (id)initWithImage:(UIImage *)image name:(NSString*) name describtion:(NSString*)desc city:(NSString*)city {
+- (id)initWithImage:(UIImage *)image name:(NSString*) name description:(NSString*)desc city:(NSString*)city {
     if (self = [super init]) {
         _image = image;
         _name = name;
@@ -67,7 +67,7 @@
     self.imageView.image = self.image;
     self.nameLabel.text = self.weatherParseObject[@"name"];
     self.cityLabel.text = self.weatherParseObject[@"city"];
-    self.descriptionTextView.text = self.weatherParseObject[@"describtion"];
+    self.descriptionTextView.text = self.weatherParseObject[@"description"];
     
  [self.activityIndicator setHidden:YES];
     PFFile *theImage = [self.weatherParseObject objectForKey:@"imageFile"];
@@ -94,12 +94,12 @@
 
     
     ah__block typeof(self) blockSelf = self;
-    UzysSMMenuItem *item0 = [[UzysSMMenuItem alloc] initWithTitle:@"Menu" image:[UIImage imageNamed:@"a0.png"] action:^(UzysSMMenuItem *item) {
+    UzysSMMenuItem *item0 = [[UzysSMMenuItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"Menu2Icon"] action:^(UzysSMMenuItem *item) {
        // NSLog(@"Item: %@ menuState : %d", item , blockSelf.uzysSMenu.menuState);
 
     }];
     __weak typeof(self) weakSelf = self;
-    UzysSMMenuItem *item1 = [[UzysSMMenuItem alloc] initWithTitle:@"Download" image:[UIImage imageNamed:@"download.png"] action:^(UzysSMMenuItem *item) {
+    UzysSMMenuItem *item1 = [[UzysSMMenuItem alloc] initWithTitle:@"Download" image:[UIImage imageNamed:@"downloadMenuIcon"] action:^(UzysSMMenuItem *item) {
         NSLog(@"Item: %@ menuState : %d", item , blockSelf.uzysSMenu.menuState);
         _library = [[ALAssetsLibrary alloc] init];
         __weak ALAssetsLibrary *lib = self.library;
@@ -165,17 +165,18 @@
         
 
     }];
-    UzysSMMenuItem *item2 = [[UzysSMMenuItem alloc] initWithTitle:@"Set as background" image:[UIImage imageNamed:@"0095"] action:^(UzysSMMenuItem *item) {
+    UzysSMMenuItem *item2 = [[UzysSMMenuItem alloc] initWithTitle:@"Set as background" image:[UIImage imageNamed:@"setBackgrounMenuIcon"] action:^(UzysSMMenuItem *item) {
         NSLog(@"Item: %@ menuState : %d", item , blockSelf.uzysSMenu.menuState);
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"backgroundImageNotification" object:self userInfo:@{@"backgroundImage": self.image}];
        // [self dismissViewControllerAnimated:YES completion:nil];
         
         
+        
     }];
     
     
-    UzysSMMenuItem *item3 = [[UzysSMMenuItem alloc] initWithTitle:@"Share with friends" image:[UIImage imageNamed:@"0095"] action:^(UzysSMMenuItem *item) {
+    UzysSMMenuItem *item3 = [[UzysSMMenuItem alloc] initWithTitle:@"Share with friends" image:[UIImage imageNamed:@"shareMenuIcon"] action:^(UzysSMMenuItem *item) {
         NSLog(@"Item: %@ menuState : %d", item , blockSelf.uzysSMenu.menuState);
         
         
@@ -265,6 +266,10 @@
         // Zoom out
         [self.scrollView zoomToRect:self.scrollView.bounds animated:YES];
     }
+}
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //self.imageView =nil;
 }
 - (void)dealloc
 {

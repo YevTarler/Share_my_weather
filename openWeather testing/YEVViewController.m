@@ -7,8 +7,7 @@
 //
 
 #import "YEVViewController.h"
-#import "LocationManager.h"
-#import "NetworkClient.h"
+
 #import "WeatherItem.h"
 #import "WeatherCollectionViewController.h"
 
@@ -22,6 +21,7 @@
 {
     NSString * city;
     NSString* temp;
+    UIRefreshControl *_refreshControl;
  
 }
 @property (strong, nonatomic) LMAlertView *ratingAlertView;
@@ -33,14 +33,9 @@
 @property (nonatomic,strong) NSMutableArray* dailyWeather;
 @property (nonatomic,strong) WeatherItem* currentWeather;
 
-@property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
-@property (weak, nonatomic) IBOutlet UILabel *hiloLabel;
-@property (weak, nonatomic) IBOutlet UILabel *conditionsLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *iconView;
-@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
-@property (nonatomic,strong) CLLocation *location;
+
+
 
 @property (nonatomic,strong) WeatherCollectionViewController *mjrvc;
 @property (weak, nonatomic) IBOutlet FXBlurView *bluredView;
@@ -57,9 +52,22 @@
     
     [super viewDidLoad];
 
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self selector:@selector(receivedBackgroundNotification:) name:@"backgroundImageNotification" object:nil];
+    _refreshControl = [[UIRefreshControl alloc] init];
     
+    
+    
+    _refreshControl.tintColor = [UIColor whiteColor];
+    [_refreshControl addTarget:self action:@selector(refershControlAction) forControlEvents:UIControlEventValueChanged];
+    
+  //  self.location = [[LocationManager sharedManager] currentLocation];
+    NSLog(@"location is: %f %f", self.location.coordinate.longitude,self.location.coordinate.latitude);
+    self.screenHeight = [UIScreen mainScreen].bounds.size.height;
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter addObserver:self selector:@selector(receivedBackgroundNotification:) name:@"locationGranted" object:nil];
+    [notificationCenter addObserver:self selector:@selector(receivedBackgroundNotification:) name:@"backgroundImageNotification" object:nil];
+
+
+    [self.tableView addSubview:_refreshControl];
     self.bluredView.blurRadius = 25;
     self.bluredView.alpha=0;
     //transition:
@@ -68,7 +76,9 @@
     
     self.hourlyWeather = [[NSMutableArray alloc]init];
     self.dailyWeather = [[NSMutableArray alloc]init];
-    UIImage *background = [UIImage imageNamed:@"bg"];
+    UIImage *background =[self getImage:@"shareMyWeatherBackground"];
+    if(!background)
+        background= [UIImage imageNamed:@"bg"];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.image = background;
 
@@ -79,12 +89,21 @@
     self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.2];
 
     
-    self.location = [[LocationManager sharedManager] currentLocation];
+    
     //
     
     [self reloadData];
 }
+
+-(void) refershControlAction {
+    
+    [self reloadData];
+}
+
 -(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSLog(@"view will appear");
     self.bluredView.blurRadius = 25;
     self.bluredView.alpha=0;
     //transition:
@@ -107,28 +126,47 @@
         NSLog(@"background recieved");
         UIImage *newBackground = notification.userInfo[@"backgroundImage"];
         self.backgroundImageView.image = newBackground;
+        [self saveImage:newBackground filename:@"shareMyWeatherBackground"];
         [self reloadData];
     }
-}
-- (IBAction)swipedRight:(id)sender {
-    //change transition ?
-    if (_mjrvc == nil) { //user those if only so the use wont push it twice and more
-        _mjrvc = [self.storyboard instantiateViewControllerWithIdentifier:@"rootVC"];
-        
+    else if ([notification.name isEqualToString:@"locationGranted"]){
+        [self reloadHeader];
+        [self.view setNeedsDisplay];
     }
-    _mjrvc.transitioningDelegate = self;
+}
+
+- (IBAction)swipedRight:(id)sender {
+    static UITabBarController *barController = nil;
+    if (!barController) {
+        barController = [self.storyboard instantiateViewControllerWithIdentifier:@"tabbarController"];
+    }
+    barController.transitioningDelegate = self;
+    barController.view.backgroundColor = [UIColor clearColor];
+    BlurryModalSegue *bms = [[BlurryModalSegue alloc] initWithIdentifier:@"" source:self destination:barController];
     
-    BlurryModalSegue *bms = [[BlurryModalSegue alloc] initWithIdentifier:@"" source:self destination:_mjrvc];
+    bms.backingImageBlurRadius = @(10);
+ //  bms.backingImageSaturationDeltaFactor = @(1.8);
     
-    bms.backingImageBlurRadius = @(1);
-   bms.backingImageSaturationDeltaFactor = @(1.8);
-    bms.backingImageTintColor = [UIColor colorWithWhite:0.11 alpha:0.73] ;
+    bms.backingImageTintColor = [UIColor colorWithWhite:0.01 alpha:0.5] ;
     
     [bms perform];
     
-    //[self presentViewController:_mjrvc animated:YES completion:nil];
-
 }
+
+- (void)saveImage:(UIImage*)image filename:(NSString*)filename
+{
+    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", filename];
+    NSData *data = UIImagePNGRepresentation(image);
+    [data writeToFile:filename atomically:YES];
+}
+
+- (UIImage*)getImage:(NSString*)filename
+{
+    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", filename];
+    NSData *data = [NSData dataWithContentsOfFile:filename];
+    return [UIImage imageWithData:data];
+}
+
 #pragma mark - Custom animation delegate methods
 
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
@@ -139,12 +177,6 @@
 
 return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRight];}
 
--(void)didUpdateToLocation:(CLLocation *)newLocation
-              fromLocation:(CLLocation *)oldLocation{
-    NSLog(@"lat:%f long:%f",newLocation.coordinate.latitude,newLocation.coordinate.longitude);
-
-    
-}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -155,12 +187,9 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
     }
     return _headerView;
 }
-                    
-- (void)reloadData
-{
-    NSLog(@"check 123");
+-(void) reloadHeader {
     self.client = [NetworkClient sharedInstance];
-
+    self.location = [[LocationManager sharedManager] currentLocation];
     
     [self.client fetchCurrentConditionsForLocation:self.location.coordinate completion:^(NSDictionary *data, NSError *error) {
         if (!error) {
@@ -170,10 +199,11 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
             
             
             self.currentWeather.tempLow = data[@"main"][@"temp_min"];
-             self.currentWeather.tempHigh = data[@"main"][@"temp_max"];
+            self.currentWeather.tempHigh = data[@"main"][@"temp_max"];
+            NSLog(@"temp min:%@ and temp high: %@",data[@"main"][@"temp_min"],data[@"main"][@"temp_max"]);
             dispatch_sync(dispatch_get_main_queue(), ^{
-               
-         
+                
+                
                 self.temperatureLabel.text = self.currentWeather.temperature;
                 self.cityLabel.text = [self.currentWeather.locationName copy];
                 self.conditionsLabel.text = [self.currentWeather.condition copy];
@@ -186,6 +216,11 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
                 NSString *dateFormatted =[_formatter stringFromDate:self.currentWeather.date];
                 
                 self.dateLabel.text = dateFormatted;
+                [self.tableView reloadData];
+                //  [self.headerView setNeedsDisplay];
+                if (_refreshControl) {
+                    [_refreshControl endRefreshing];
+                }
             });
             
         }
@@ -197,13 +232,13 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
     [self.client fetchHourlyForecastForLocation:self.location.coordinate completion:^(NSDictionary *data, NSError *error) {
         if (!error) {
             
-        
-        for (NSDictionary *hour in data[@"list"]) {
-            WeatherItem *item = [[WeatherItem alloc]initWithLocation:hour[@"name"] temperature:hour[@"main"][@"temp"] icon:hour[@"weather"][0][@"icon"] condition:hour[@"weather"][0][@"main"] date:hour[@"dt"]] ;
             
-            [self.hourlyWeather addObject:item];
-        }
-         //   WeatherItem *weather =self.hourlyWeather[0];
+            for (NSDictionary *hour in data[@"list"]) {
+                WeatherItem *item = [[WeatherItem alloc]initWithLocation:hour[@"name"] temperature:hour[@"main"][@"temp"] icon:hour[@"weather"][0][@"icon"] condition:hour[@"weather"][0][@"main"] date:hour[@"dt"]] ;
+                
+                [self.hourlyWeather addObject:item];
+            }
+            //   WeatherItem *weather =self.hourlyWeather[0];
             //NSLog(@"counts and wethear:%d %@",self.hourlyWeather.count,weather.temperature);
             [self reloadTableView];
         }
@@ -233,6 +268,14 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
         }
         
     }];
+
+}
+- (void)reloadData
+{
+    
+    self.client = [NetworkClient sharedInstance];
+
+
     
 }
 -(void) reloadTableView {
@@ -285,6 +328,7 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
             NSString *dateFormatted =[_formatter stringFromDate:weather.date];
             
             cell.textLabel.text = dateFormatted;
+            cell.detailTextLabel.backgroundColor = [UIColor clearColor];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@/%@",weather.tempLow,weather.tempHigh];
             cell.imageView.image = [UIImage imageNamed:[WeatherItem imageMap][weather.icon]];
         }
@@ -307,7 +351,17 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
     if (indexPath.row == 0) {
         return 75.0f;
     }
-    return 60.0f;
+    else {
+        //NSLog(@"height of screen: %f",self.screenHeight);
+        NSInteger cellCount = [self tableView:tableView numberOfRowsInSection:indexPath.section];
+        return (self.screenHeight - 75) / ((CGFloat)cellCount-1);
+        //return 60.0f;
+    }
+    
+    
+ //   NSInteger cellCount = [self tableView:tableView numberOfRowsInSection:indexPath.section];
+ //   return self.screenHeight / (CGFloat)cellCount;
+
 }
 
 
@@ -347,17 +401,6 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
 	[alertView show];
     
 }
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"called");
-    if ([segue isKindOfClass:[BlurryModalSegue class]])
-    {
-        BlurryModalSegue* bms = (BlurryModalSegue*)segue;
-        
-        bms.backingImageBlurRadius = @(3);
-        bms.backingImageSaturationDeltaFactor = @(.05);
-        bms.backingImageTintColor = [[UIColor blackColor] colorWithAlphaComponent:.1];
-    }
-}
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -366,5 +409,15 @@ return [[BouncePresentTransition alloc]initWithDirection:YevTransitionStyleGoRig
     CGFloat percent = MIN(position / height, 1.0);
     self.bluredView.alpha=percent;
 }
+/*
+ מה שצריך לעשות:
 
+ אייקון לאפליקציה
+
+ להוסיף חץ לסווייפ
+ לנקות מאפליקציות ופרופרטי לא משומשים
+ לנקות מתמונות לא משומשות
+
+ 
+ */
 @end

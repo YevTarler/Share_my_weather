@@ -14,20 +14,27 @@
 #import "LMModalSegue.h"
 
 #import "preUploadViewController.h"
-#import "YEVPopShareViewController.h"
 #import <BlurryModalSegue.h>
-#import "NewMapViewController.h"
 
 #import "WeatherPhotoUpload.h"
 #import "WeatherPhotoUploadStore.h"
 #import "YEVClearToolbar.h"
-#import "WeatherUploadDetailViewController.h"
 #import "LocationManager.h"
 
 #import "WeatherPhotoDetailViewController.h"
 #import "TGRImageZoomAnimationController.h"
 #import "SearchViewController.h"
 
+
+//scroll:
+#import "UITabBarController+hidable.h"
+#import "RNFullScreenScroll.h"
+#import "UIViewController+RNFullScreenScroll.h"
+
+
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVAudioPlayer.h>
 @interface WeatherCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,UIViewControllerTransitioningDelegate>
 {
     UIRefreshControl *_refreshControl;
@@ -47,6 +54,7 @@
 //tabbar hiding:
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic) CGRect originalFrame;
+@property (retain, nonatomic) AVAudioPlayer* player;
 
 @end
 
@@ -57,12 +65,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.showAll = YES;
+    self.showAll = NO;
+    self.radius = 1000;
     
+        self.fullScreenScroll = [[RNFullScreenScroll alloc] initWithViewController:self scrollView:self.parallaxCollectionView];
     
     imageSelected = NO;
     dataDownloaded = NO;
-    allWeatherUploads = [[NSMutableArray alloc] init];
+    self.allWeatherUploads = [[NSMutableArray alloc] init];
     [self getPhotosFromNetwork];
     //pull to refresh:
     _refreshControl = [[UIRefreshControl alloc] init];
@@ -72,25 +82,38 @@
     self.parallaxCollectionView.alwaysBounceVertical = YES;
     _imageNeto = [[UIImage alloc]init];
     
-    
 	// Do any additional setup after loading the view, typically from a nib.
-    
-    
-    
     [self.parallaxCollectionView reloadData];
 }
 //tabbar hiding:
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
     self.originalFrame = self.tabBarController.tabBar.frame;
+    
+    [self.parallaxCollectionView reloadData];
+    
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    for(MJCollectionViewCell *view in self.parallaxCollectionView.visibleCells) {
+        CGFloat yOffset = ((self.parallaxCollectionView.contentOffset.y - view.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
+        view.imageOffset = CGPointMake(0.0f, yOffset);
+    }
+
+
+}
+
 -(void) refershControlAction {
     
     [[WeatherPhotoUploadStore sharedWeatherUploadsStore] removeAllObjects];
 
     [self getPhotosFromNetwork];
 }
+
+//scaling:
+
+
 
 
 #pragma mark - PARSING NETWORK DATA METHODS
@@ -111,9 +134,22 @@
     [HUD show:YES];
     
     // Save PFFile
-    NSData *thumbnailData = UIImageJPEGRepresentation(WeatherPhotoUpload.thumbnail, 0.5f);
+    NSData *thumbnailData = UIImageJPEGRepresentation(WeatherPhotoUpload.thumbnail, 0.3f);
     PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnailImage.jpg" data: thumbnailData];
     [thumbnailFile saveInBackground];
+    
+    
+    NSData *mapThumbnailData = UIImageJPEGRepresentation(WeatherPhotoUpload.mapThumbnail, 0.05f);
+    PFFile *mapThumbnailFile = [PFFile fileWithName:@"mapThumbnailImage.jpg" data: mapThumbnailData];
+    [mapThumbnailFile saveInBackground];
+ 
+    NSString *path;
+    
+    NSURL *url;
+    path =[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"uploadSound"] ofType:@"wav"];
+    url = [NSURL fileURLWithPath:path];
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:NULL];
+    [self.player setVolume:1.0];
     
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error){
@@ -123,11 +159,6 @@
             
         }
         else {
-
-            
-            //    NSData *imageData = UIImagePNGRepresentation(thumbnail);
-            //    PFFile *imageFile = [PFFile fileWithName:@"thumbnailImage.png" data:imageData];
-            //    [imageFile save];
             
             //Hide determinate HUD
             [HUD hide:YES];
@@ -144,10 +175,15 @@
             
             [weatherUpload setObject:imageFile forKey:@"imageFile"];
             [weatherUpload setObject:thumbnailFile forKey:@"thumbnailFile"];
+            [weatherUpload setObject:mapThumbnailFile forKey:@"mapThumbnailFile"];
             
             weatherUpload[@"name"] = WeatherPhotoUpload.uploaderName;
-            weatherUpload[@"describtion"] = WeatherPhotoUpload.uploaderDescription;
+            weatherUpload[@"description"] = WeatherPhotoUpload.uploaderDescription;
             weatherUpload[@"city"] = WeatherPhotoUpload.uploaderLocationCity;
+            
+
+            
+
             
             //TODO: SET GEOLOCATION
             PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:WeatherPhotoUpload.locationWherePictureTaken.coordinate.latitude
@@ -165,24 +201,67 @@
                     [self addWeatherPhotoObject:weatherUpload];
                    // [self refresh:nil];
                     
+
+                    //where you are about to add sound
+                    
+                    
+                    
+                    
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            [self.player play];
+        
+    }];
+                   
+                    
                 }
             }];
         }
     }
      progressBlock:^(int percentDone) {
         HUD.progress = (float)percentDone/100;
+         
     }];
     [self.parallaxCollectionView reloadData];
+    
 }
-
+// CALL [self playSoundFXnamed:@"someAudio.mp3" Loop: NO];
+-(BOOL) playSoundFXnamed: (NSString*) vSFXName Loop: (BOOL) vLoop
+{
+    NSError *error;
+    
+    NSBundle* bundle = [NSBundle mainBundle];
+    
+    NSString* bundleDirectory = (NSString*)[bundle bundlePath];
+    
+    NSURL *url = [NSURL fileURLWithPath:[bundleDirectory stringByAppendingPathComponent:vSFXName]];
+    
+    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    
+    if(vLoop)
+        audioPlayer.numberOfLoops = -1;
+    else
+        audioPlayer.numberOfLoops = 0;
+    
+    BOOL success = YES;
+    
+    if (audioPlayer == nil)
+    {
+        success = NO;
+    }
+    else
+    {
+        success = [audioPlayer play];
+    }
+    return success;
+}
 -(void) addWeatherPhotoObject: (PFObject*)weatherPhoto {
-    [allWeatherUploads insertObject:weatherPhoto atIndex:0];
-    if (allWeatherUploads.count >14) { //show only X
-        PFObject* lastObj = [allWeatherUploads lastObject];
+    [self.allWeatherUploads insertObject:weatherPhoto atIndex:0];
+    if (self.allWeatherUploads.count >14) { //show only X
+        PFObject* lastObj = [self.allWeatherUploads lastObject];
         [lastObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                NSLog(@"succesfully deleted");
-                [allWeatherUploads removeLastObject];
+               // NSLog(@"succesfully deleted");
+                [self.allWeatherUploads removeLastObject];
                 [[WeatherPhotoUploadStore sharedWeatherUploadsStore] removeLastWeatherObject];
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         [self.parallaxCollectionView reloadData];
@@ -190,13 +269,16 @@
     }];
             }
             else{
-                NSLog(@"error has eccured");
+              //  NSLog(@"error has eccured");
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alert show];
+                
             }
         }];
     }
     else {
         [self.parallaxCollectionView reloadData];
-            NSLog(@"count of allWeatherUploads: %lu storedata: %lu", (unsigned long)allWeatherUploads.count,(unsigned long)[[WeatherPhotoUploadStore sharedWeatherUploadsStore] getAllWeatherUploads].count);
+
     }
 }
 
@@ -238,14 +320,12 @@
                 refreshHUD.mode = MBProgressHUDModeCustomView;
                 refreshHUD.delegate = self;
             }
-            NSMutableArray *newObjectIDArray = [NSMutableArray array];
-            if (objects.count > 0) {
-                int i=0;
-                for (PFObject *eachObject in objects) {
-                    [newObjectIDArray addObject:[eachObject objectId]];
-                    NSLog(@"date of obj in index %d is: %@",i,eachObject[@"createdAt"]);
-                }
-            }
+//            NSMutableArray *newObjectIDArray = [NSMutableArray array];
+//            if (objects.count > 0) {
+//                for (PFObject *eachObject in objects) {
+//                    [newObjectIDArray addObject:[eachObject objectId]];
+//                }
+//            }
             /*
              we can keep an array og PFObject's "old"( and "new" ) check every "titleForState" of what we have and compare it with the new one - we do it by removing from the new one the old ones.
              Its a good practice to also check if the "amin" removed some photos from the network - do it by comparing 2 arrays of "old" - removing from the old all "new" we first got(2 arrays of new) so we know what is in the view but not in the network
@@ -253,7 +333,7 @@
             
             // Add new objects
             if (objects.count > 0) {
-                allWeatherUploads = [NSMutableArray arrayWithArray:objects];
+                self.allWeatherUploads = [NSMutableArray arrayWithArray:objects];
             }
             // TODO: check what ascending means?
 
@@ -315,20 +395,28 @@
     
     
     
-    
-    // UIImage *original = <original UIImage>;
-    CGSize thumbnailSize = CGSizeMake(image.size.width*0.07, image.size.height*0.07);
-    UIGraphicsBeginImageContextWithOptions(thumbnailSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height)];
-    UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
+//    CGSize thumbnailSize = CGSizeMake(image.size.width*0.07, image.size.height*0.07);
+//    UIGraphicsBeginImageContextWithOptions(thumbnailSize, NO, 0.0);
+//    [image drawInRect:CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height)];
+//    UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//
     CGSize newSize = CGSizeMake(image.size.width*0.20, image.size.height*0.20);
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *compressedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
+    
+//    NSData *thumbnail0 = UIImageJPEGRepresentation(thumbnail, 1.0f);
+//    NSLog(@"0.4 size: %d", thumbnail0.length);
+    
+    NSData *thumbnail1 = UIImageJPEGRepresentation(compressedImage, 0.4f);
+   // NSLog(@"0.4 size: %d", thumbnail1.length);
+    
+    UIImage *thumbnail = [UIImage imageWithData:thumbnail1];
+     NSData *mapThumbnailData = UIImageJPEGRepresentation(thumbnail, 0.0f);
+    UIImage *mapThumbnail = [UIImage imageWithData:mapThumbnailData];
 	
      UINavigationController* navCont = [self.storyboard instantiateViewControllerWithIdentifier:@"navToPost"];
     self.preShareVC =(preUploadViewController*) [navCont topViewController];
@@ -340,13 +428,14 @@
         // I DONT THINK I NEED ALL THOSE PARAMS but its 3 am
         WeatherPhotoUpload *newWeatherUpload = [[WeatherPhotoUpload alloc] initWithName:name Image:compressedImage ImageDescription:description];
         newWeatherUpload.thumbnail = thumbnail;
+        newWeatherUpload.mapThumbnail = mapThumbnail;
         newWeatherUpload.locationWherePictureTaken = location;
         
         //not realy needed
         [[WeatherPhotoUploadStore sharedWeatherUploadsStore] pushWeatherUploadToBeginning:newWeatherUpload];
         
         
-        newWeatherUpload.uploaderLocationCity = @"none";
+        newWeatherUpload.uploaderLocationCity = @"";
         if (city)
             newWeatherUpload.uploaderLocationCity = city;
         //TODO: YOU ARE HERE: check it
@@ -388,25 +477,20 @@
     else
         cell =  (MJCollectionViewCell*)[self.parallaxCollectionView viewWithTag:indexPath.row];
     
-    NSLog(@"the index is %d",indexPath.row);
+    //NSLog(@"the index is %d",indexPath.row);
     self.clickedImageView = cell.MJImageView;
     WeatherPhotoDetailViewController *weatherDetail = [[WeatherPhotoDetailViewController alloc] initWithImage:self.clickedImageView.image];
-    weatherDetail.weatherParseObject = (PFObject *)[allWeatherUploads objectAtIndex:indexPath.row];
+    weatherDetail.weatherParseObject = (PFObject *)[self.allWeatherUploads objectAtIndex:indexPath.row];
     weatherDetail.transitioningDelegate = self;
     [self presentViewController:weatherDetail animated:YES completion:nil];
     
-
- //   WeatherPhotoDetailViewController *viewController =
-//    WeatherPhotoDetailViewController *viewController = [[WeatherPhotoDetailViewController alloc] initWithImage:chosenWeatherUpload.uploaderImage name:chosenWeatherUpload.uploaderName describtion:chosenWeatherUpload.uploaderDescription city:@"check"]; //chosenWeatherUpload.uploaderLocationCity
-//    viewController.transitioningDelegate = self;
-//    [self presentViewController:viewController animated:YES completion:nil];
     
     
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (dataDownloaded) {
-        return allWeatherUploads.count;
+        return self.allWeatherUploads.count;
     }
     return 0;
 
@@ -417,7 +501,7 @@
     
     
     //NSInteger count = allWeatherUploads.count-1;
-    PFObject *parseObj = (PFObject *)[allWeatherUploads objectAtIndex:indexPath.row];
+    PFObject *parseObj = (PFObject *)[self.allWeatherUploads objectAtIndex:indexPath.row];
     cell.tag = indexPath.row;
     
     PFFile *theImage = [parseObj objectForKey:@"thumbnailFile"];
@@ -426,7 +510,7 @@
         imageData = data;
         UIImage *selectedPhoto = [UIImage imageWithData:imageData];
         
-       //  WeatherPhotoUpload *wpu = [[WeatherPhotoUpload alloc] initWithName:parseObj[@"name"] Image:selectedPhoto ImageDescription:parseObj[@"describtion"]];
+       //  WeatherPhotoUpload *wpu = [[WeatherPhotoUpload alloc] initWithName:parseObj[@"name"] Image:selectedPhoto ImageDescription:parseObj[@"description"]];
        // [[WeatherPhotoUploadStore sharedWeatherUploadsStore] addWeatherUpload:wpu ];
         
         cell.image = selectedPhoto;
@@ -440,46 +524,11 @@
     
 }
 
-//NOT USED !
--(void) syncParseObjectWithLocalData {
-    
-    for (PFObject *parseObj in allWeatherUploads) {
-        PFFile *theImage = [parseObj objectForKey:@"imageFile"];
-        __block NSData *imageData;
-        [theImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            imageData = data;
-            UIImage *selectedPhoto = [UIImage imageWithData:imageData];
-            WeatherPhotoUpload *wpu = [[WeatherPhotoUpload alloc] initWithName:parseObj[@"name"] Image:selectedPhoto ImageDescription:parseObj[@"describtion"]];
-            NSLog(@"PARSE: %@, %@", parseObj[@"name"],parseObj[@"describtion"] );
-            [[WeatherPhotoUploadStore sharedWeatherUploadsStore] addWeatherUpload:wpu ];
-        } progressBlock:^(int percentDone) {
-            
-        }];
-
-    }
-   
-    
-}
-
 
 
 #pragma mark - UIScrollViewdelegate methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    for(MJCollectionViewCell *view in self.parallaxCollectionView.visibleCells) {
-        CGFloat yOffset = ((self.parallaxCollectionView.contentOffset.y - view.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
-        view.imageOffset = CGPointMake(0.0f, yOffset);
-    }
-    
-    //hiding tabbar:
-    //hiding:
-    UITabBar *tb = self.tabBarController.tabBar;
-    NSInteger yOffset = scrollView.contentOffset.y;
-    if (yOffset > 0) {
-        tb.frame = CGRectMake(tb.frame.origin.x, self.originalFrame.origin.y + yOffset, tb.frame.size.width, tb.frame.size.height);
-    }
-    if (yOffset < 1) tb.frame = self.originalFrame;
-}
+
 
 
 #pragma mark -
@@ -509,10 +558,5 @@
     return nil;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showSearch"]) {
-        // Search button
-        [segue.destinationViewController setInitialLocation:[[LocationManager sharedManager] currentLocation]];
-    }
-}
+
 @end

@@ -144,4 +144,41 @@
                      }];
 }
 
+
+//NetworkClient *openWeatherClient = [NetworkClient sharedInstance];
+//CLLocation *location = [[LocationManager sharedManager] currentLocation];
+//__block WeatherItem *currentWeather = nil;
+//[openWeatherClient fetchCurrentConditionsForLocation:location.coordinate completion:^(NSDictionary *data, NSError *error) {
+//    if (!error) {
+//        
+//        currentWeather = [[WeatherItem alloc]initWithLocation:data[@"name"] temperature:data[@"main"][@"temp"]  icon:data[@"weather"][0][@"icon"] condition:data[@"weather"][0][@"main"] date:data[@"dt"]] ;
+//        
+//        
+//        
+//        currentWeather.tempLow = data[@"main"][@"temp_min"];
+//        currentWeather.tempHigh = data[@"main"][@"temp_max"];
+//        NSLog(@"temp min:%@ and temp high: %@",data[@"main"][@"temp_min"],data[@"main"][@"temp_max"]);
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            
+//            
+//            rootVC.temperatureLabel.text = currentWeather.temperature;
+//            rootVC.cityLabel.text = [currentWeather.locationName copy];
+//            rootVC.conditionsLabel.text = [currentWeather.condition copy];
+//            rootVC.hiloLabel.text = [NSString stringWithFormat:@"%@ / %@",currentWeather.tempLow,currentWeather.tempHigh];
+//            rootVC.iconView.image = [UIImage imageNamed:[WeatherItem imageMap][currentWeather.icon]];
+//            
+//            NSDateFormatter *_formatter=[[NSDateFormatter alloc]init];
+//            [_formatter setLocale:[NSLocale currentLocale]];
+//            [_formatter setDateFormat:@"EEEE d.M"];
+//            NSString *dateFormatted =[_formatter stringFromDate:currentWeather.date];
+//            
+//            rootVC.dateLabel.text = dateFormatted;
+//        });
+//        
+//    }
+//    else {
+//        NSLog(@"error: %@",[error description]);
+//    }
+//}];
+
 @end

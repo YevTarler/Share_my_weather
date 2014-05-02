@@ -65,7 +65,7 @@
     }
     
     _title = self.object[@"name"]; //[dateFormatter stringFromDate:self.object.updatedAt];
-    _subtitle = self.object[@"describtion"];
+    _subtitle = self.object[@"description"];
    // PFFile *photoFile = (PFFile *)[photoObject objectForKey:@"fullSizedImage"];
 
    // [NSString stringWithFormat:@"%@, %@", [numberFormatter stringFromNumber:[NSNumber numberWithDouble:geoPoint.latitude]],[numberFormatter stringFromNumber:[NSNumber numberWithDouble:geoPoint.longitude]]];

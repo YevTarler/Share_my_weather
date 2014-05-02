@@ -12,7 +12,7 @@
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-
+@property (nonatomic,strong) NSMutableArray *WeatherUploads;
 - (void)setInitialLocation:(CLLocation *)aLocation;
 
 @end

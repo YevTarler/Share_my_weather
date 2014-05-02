@@ -40,7 +40,7 @@ NSString * const kAddressOfCurrentLocationNotificationKey = @"addressOfCurrentLo
             self.locationManager.delegate = self;
             [self.locationManager startMonitoringSignificantLocationChanges];
         }
-    }
+           }
     else
     {
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"This app requires location services to be enabled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -107,10 +107,9 @@ NSString * const kAddressOfCurrentLocationNotificationKey = @"addressOfCurrentLo
         if([placemarks count] > 0)
         {
             CLPlacemark* foundPlacemark = [placemarks objectAtIndex:0];
-           // NSLog(@"You are in: %@", foundPlacemark.description);
+            NSLog(@"You are in: %@", foundPlacemark.description);
             NSString *city = [foundPlacemark.locality copy];
             [userInfo setValue:foundPlacemark forKey:@"placemark"];
-            // self.geocodingResultsView.text = [NSString stringWithFormat:@"You are in: %@", foundPlacemark.description];
         }
         else if (error.code == kCLErrorGeocodeCanceled)
         {
@@ -133,6 +132,7 @@ NSString * const kAddressOfCurrentLocationNotificationKey = @"addressOfCurrentLo
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kAddressOfCurrentLocationNotificationKey object:self userInfo:userInfo];
+        
     }];
 
 
@@ -149,12 +149,29 @@ NSString * const kAddressOfCurrentLocationNotificationKey = @"addressOfCurrentLo
     NSDate* eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     if (abs(howRecent) < 15.0) {
-        
-      //  NSLog(@"latitude %+.6f, longitude %+.6f\n",location.coordinate.latitude,location.coordinate.longitude);
+       
+        NSLog(@"latitude %+.6f, longitude %+.6f\n",location.coordinate.latitude,location.coordinate.longitude);
         // If the event is recent, do something with it.
+        
   
     }
-
+    
+[[NSNotificationCenter defaultCenter] postNotificationName:@"locationGranted" object:self userInfo:nil];
+    [self.locationManager stopUpdatingLocation];
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
+    if (newLocation) {
+        userInfo[@"newLocation"] = newLocation;
+    }
+    if (oldLocation) {
+        userInfo[@"oldLocation"] = oldLocation;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLocationDidChangeNotificationKey
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 - (void)locationManager:(CLLocationManager*)manager didFailWithError:(NSError*)error
@@ -164,6 +181,13 @@ NSString * const kAddressOfCurrentLocationNotificationKey = @"addressOfCurrentLo
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Denied" message:@"This app requires location services to be allowed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];
     }
+    else {
+        
+       
+    }
 }
+
+
+
 
 @end

@@ -11,15 +11,17 @@
 		CC3781461910FFD6007C4597 /* CircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = CC3781451910FFD6007C4597 /* CircleOverlay.m */; };
 		CC6C3B1A1908934B00D78430 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC6C3B191908934B00D78430 /* Parse.framework */; };
 		CC6C3B1C1908937A00D78430 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC6C3B1B1908937A00D78430 /* FacebookSDK.framework */; };
-		CC6C3B1F19096CEC00D78430 /* YEVPopShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6C3B1E19096CEB00D78430 /* YEVPopShareViewController.m */; };
-		CC6C3B26190ACFA100D78430 /* NewMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6C3B24190ACFA100D78430 /* NewMapViewController.m */; };
 		CC6C3B2A190AFB1100D78430 /* WeatherPhotoUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6C3B29190AFB1100D78430 /* WeatherPhotoUpload.m */; };
 		CC6C3B2D190AFB4300D78430 /* WeatherPhotoUploadStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6C3B2C190AFB4300D78430 /* WeatherPhotoUploadStore.m */; };
 		CC7AB3B71911B40D00EA3E23 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3B61911B40D00EA3E23 /* SearchViewController.m */; };
 		CC7AB3BC1911B44D00EA3E23 /* GeoPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3B81911B44D00EA3E23 /* GeoPointAnnotation.m */; };
 		CC7AB3BD1911B44D00EA3E23 /* GeoQueryAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3BB1911B44D00EA3E23 /* GeoQueryAnnotation.m */; };
+		CC7AB3C11912694C00EA3E23 /* RNFullScreenScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3C01912694C00EA3E23 /* RNFullScreenScroll.m */; };
+		CC7AB3C71912698500EA3E23 /* UITabBarController+hidable.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3C41912698500EA3E23 /* UITabBarController+hidable.m */; };
+		CC7AB3C81912698500EA3E23 /* UIViewController+RNFullScreenScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3C61912698500EA3E23 /* UIViewController+RNFullScreenScroll.m */; };
+		CC7AB3CC191269A200EA3E23 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7AB3CB191269A200EA3E23 /* JRSwizzle.m */; };
+		CC93E2451913B90100E91684 /* uploadSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = CC93E2441913B90100E91684 /* uploadSound.wav */; };
 		CCA70203190E7BA600C065B4 /* YEVClearToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA70202190E7BA600C065B4 /* YEVClearToolbar.m */; };
-		CCA70206190E95BD00C065B4 /* WeatherUploadDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA70205190E95BD00C065B4 /* WeatherUploadDetailViewController.m */; };
 		CCA7025B190FC2D800C065B4 /* WeatherPhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA70255190FC2D800C065B4 /* WeatherPhotoDetailViewController.m */; };
 		CCA7025C190FC2D800C065B4 /* WeatherPhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCA70256190FC2D800C065B4 /* WeatherPhotoDetailViewController.xib */; };
 		CCA7025D190FC2D800C065B4 /* TGRImageZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA70258190FC2D800C065B4 /* TGRImageZoomAnimationController.m */; };
@@ -86,10 +88,6 @@
 		CC3781451910FFD6007C4597 /* CircleOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleOverlay.m; sourceTree = "<group>"; };
 		CC6C3B191908934B00D78430 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		CC6C3B1B1908937A00D78430 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
-		CC6C3B1D19096CEB00D78430 /* YEVPopShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YEVPopShareViewController.h; sourceTree = "<group>"; };
-		CC6C3B1E19096CEB00D78430 /* YEVPopShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YEVPopShareViewController.m; sourceTree = "<group>"; };
-		CC6C3B24190ACFA100D78430 /* NewMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewMapViewController.m; sourceTree = "<group>"; };
-		CC6C3B27190ACFBF00D78430 /* NewMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewMapViewController.h; sourceTree = "<group>"; };
 		CC6C3B28190AFB1100D78430 /* WeatherPhotoUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherPhotoUpload.h; sourceTree = "<group>"; };
 		CC6C3B29190AFB1100D78430 /* WeatherPhotoUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherPhotoUpload.m; sourceTree = "<group>"; };
 		CC6C3B2B190AFB4300D78430 /* WeatherPhotoUploadStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherPhotoUploadStore.h; sourceTree = "<group>"; };
@@ -100,10 +98,17 @@
 		CC7AB3B91911B44D00EA3E23 /* GeoPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoPointAnnotation.h; sourceTree = "<group>"; };
 		CC7AB3BA1911B44D00EA3E23 /* GeoQueryAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQueryAnnotation.h; sourceTree = "<group>"; };
 		CC7AB3BB1911B44D00EA3E23 /* GeoQueryAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQueryAnnotation.m; sourceTree = "<group>"; };
+		CC7AB3BF1912694C00EA3E23 /* RNFullScreenScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNFullScreenScroll.h; sourceTree = "<group>"; };
+		CC7AB3C01912694C00EA3E23 /* RNFullScreenScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNFullScreenScroll.m; sourceTree = "<group>"; };
+		CC7AB3C31912698500EA3E23 /* UITabBarController+hidable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+hidable.h"; sourceTree = "<group>"; };
+		CC7AB3C41912698500EA3E23 /* UITabBarController+hidable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+hidable.m"; sourceTree = "<group>"; };
+		CC7AB3C51912698500EA3E23 /* UIViewController+RNFullScreenScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RNFullScreenScroll.h"; sourceTree = "<group>"; };
+		CC7AB3C61912698500EA3E23 /* UIViewController+RNFullScreenScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RNFullScreenScroll.m"; sourceTree = "<group>"; };
+		CC7AB3CA191269A200EA3E23 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
+		CC7AB3CB191269A200EA3E23 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
+		CC93E2441913B90100E91684 /* uploadSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = uploadSound.wav; path = ../uploadSound.wav; sourceTree = "<group>"; };
 		CCA70201190E7BA600C065B4 /* YEVClearToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YEVClearToolbar.h; sourceTree = "<group>"; };
 		CCA70202190E7BA600C065B4 /* YEVClearToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YEVClearToolbar.m; sourceTree = "<group>"; };
-		CCA70204190E95BD00C065B4 /* WeatherUploadDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherUploadDetailViewController.h; sourceTree = "<group>"; };
-		CCA70205190E95BD00C065B4 /* WeatherUploadDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherUploadDetailViewController.m; sourceTree = "<group>"; };
 		CCA70254190FC2D800C065B4 /* WeatherPhotoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherPhotoDetailViewController.h; sourceTree = "<group>"; };
 		CCA70255190FC2D800C065B4 /* WeatherPhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherPhotoDetailViewController.m; sourceTree = "<group>"; };
 		CCA70256190FC2D800C065B4 /* WeatherPhotoDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeatherPhotoDetailViewController.xib; sourceTree = "<group>"; };
@@ -227,6 +232,37 @@
 			name = MapViewController;
 			sourceTree = "<group>";
 		};
+		CC7AB3BE1912692700EA3E23 /* Scroll */ = {
+			isa = PBXGroup;
+			children = (
+				CC7AB3C91912699000EA3E23 /* JRSwizzle */,
+				CC7AB3C21912697300EA3E23 /* Catagories */,
+				CC7AB3BF1912694C00EA3E23 /* RNFullScreenScroll.h */,
+				CC7AB3C01912694C00EA3E23 /* RNFullScreenScroll.m */,
+			);
+			name = Scroll;
+			sourceTree = "<group>";
+		};
+		CC7AB3C21912697300EA3E23 /* Catagories */ = {
+			isa = PBXGroup;
+			children = (
+				CC7AB3C31912698500EA3E23 /* UITabBarController+hidable.h */,
+				CC7AB3C41912698500EA3E23 /* UITabBarController+hidable.m */,
+				CC7AB3C51912698500EA3E23 /* UIViewController+RNFullScreenScroll.h */,
+				CC7AB3C61912698500EA3E23 /* UIViewController+RNFullScreenScroll.m */,
+			);
+			name = Catagories;
+			sourceTree = "<group>";
+		};
+		CC7AB3C91912699000EA3E23 /* JRSwizzle */ = {
+			isa = PBXGroup;
+			children = (
+				CC7AB3CA191269A200EA3E23 /* JRSwizzle.h */,
+				CC7AB3CB191269A200EA3E23 /* JRSwizzle.m */,
+			);
+			name = JRSwizzle;
+			sourceTree = "<group>";
+		};
 		CCA70253190FC2C700C065B4 /* Vertigo */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +351,7 @@
 		CCB19A19190470DA00F9683A /* openWeather testing */ = {
 			isa = PBXGroup;
 			children = (
+				CC93E2441913B90100E91684 /* uploadSound.wav */,
 				CCB19AE9190592BE00F9683A /* View */,
 				CCB19A5319048E8000F9683A /* Model */,
 				CCB19A22190470DA00F9683A /* YEVAppDelegate.h */,
@@ -394,15 +431,10 @@
 		CCB19AF419068B6E00F9683A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CC7AB3BE1912692700EA3E23 /* Scroll */,
 				CC3781471911011E007C4597 /* MapViewController */,
 				CCA70254190FC2D800C065B4 /* WeatherPhotoDetailViewController.h */,
 				CCA70255190FC2D800C065B4 /* WeatherPhotoDetailViewController.m */,
-				CC6C3B24190ACFA100D78430 /* NewMapViewController.m */,
-				CC6C3B27190ACFBF00D78430 /* NewMapViewController.h */,
-				CC6C3B1D19096CEB00D78430 /* YEVPopShareViewController.h */,
-				CC6C3B1E19096CEB00D78430 /* YEVPopShareViewController.m */,
-				CCA70204190E95BD00C065B4 /* WeatherUploadDetailViewController.h */,
-				CCA70205190E95BD00C065B4 /* WeatherUploadDetailViewController.m */,
 				CCF4EF211908749700A9A202 /* preUploadViewController.h */,
 				CCF4EF221908749700A9A202 /* preUploadViewController.m */,
 				CCE7C4C7190716100094E749 /* WeatherCollectionViewController.h */,
@@ -503,6 +535,7 @@
 			files = (
 				CCA70274190FC32100C065B4 /* a1@2x.png in Resources */,
 				CCA7025C190FC2D800C065B4 /* WeatherPhotoDetailViewController.xib in Resources */,
+				CC93E2451913B90100E91684 /* uploadSound.wav in Resources */,
 				CCA7026B190FC30900C065B4 /* UzysSMMenuItemView.xib in Resources */,
 				CCA70275190FC32100C065B4 /* a2@2x.png in Resources */,
 				CCB19A2F190470DA00F9683A /* Images.xcassets in Resources */,
@@ -563,28 +596,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCE9BD2B1907D87A00B84C78 /* BouncePresentTransition.m in Sources */,
+				CC7AB3C81912698500EA3E23 /* UIViewController+RNFullScreenScroll.m in Sources */,
 				CCE7C4CB190716100094E749 /* WeatherCollectionViewController.m in Sources */,
-				CC6C3B26190ACFA100D78430 /* NewMapViewController.m in Sources */,
 				CCB19A521904867400F9683A /* NetworkClient.m in Sources */,
 				CCB19A5619048F0000F9683A /* WeatherItem.m in Sources */,
 				CCB19A4D1904719F00F9683A /* LocationManager.m in Sources */,
 				CC7AB3B71911B40D00EA3E23 /* SearchViewController.m in Sources */,
 				CCA7025E190FC2D800C065B4 /* UIImage+AspectFit.m in Sources */,
 				CCE9BD31190829CB00B84C78 /* FXBlurView.m in Sources */,
-				CC6C3B1F19096CEC00D78430 /* YEVPopShareViewController.m in Sources */,
 				CCB19A2D190470DA00F9683A /* YEVViewController.m in Sources */,
+				CC7AB3C71912698500EA3E23 /* UITabBarController+hidable.m in Sources */,
 				CCA70269190FC30800C065B4 /* UzysSMMenuItem.m in Sources */,
-				CCA70206190E95BD00C065B4 /* WeatherUploadDetailViewController.m in Sources */,
 				CCE7C4CC190716100094E749 /* MJCollectionViewCell.m in Sources */,
 				CCA7026A190FC30900C065B4 /* UzysSMMenuItemView.m in Sources */,
 				CC7AB3BD1911B44D00EA3E23 /* GeoQueryAnnotation.m in Sources */,
 				CC6C3B2A190AFB1100D78430 /* WeatherPhotoUpload.m in Sources */,
+				CC7AB3C11912694C00EA3E23 /* RNFullScreenScroll.m in Sources */,
 				CCB19A20190470DA00F9683A /* main.m in Sources */,
 				CC6C3B2D190AFB4300D78430 /* WeatherPhotoUploadStore.m in Sources */,
 				CCB19A24190470DA00F9683A /* YEVAppDelegate.m in Sources */,
 				CCA7025D190FC2D800C065B4 /* TGRImageZoomAnimationController.m in Sources */,
 				CCA7026C190FC30900C065B4 /* UzysSlideMenu.m in Sources */,
 				CC3781461910FFD6007C4597 /* CircleOverlay.m in Sources */,
+				CC7AB3CC191269A200EA3E23 /* JRSwizzle.m in Sources */,
 				CCA7025B190FC2D800C065B4 /* WeatherPhotoDetailViewController.m in Sources */,
 				CCF4EF251908749700A9A202 /* preUploadViewController.m in Sources */,
 				CC7AB3BC1911B44D00EA3E23 /* GeoPointAnnotation.m in Sources */,

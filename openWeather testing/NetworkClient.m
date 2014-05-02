@@ -65,12 +65,13 @@
         else {
             // 2
             completion(nil,error);
-            NSLog(@"connection error");
-            
+          //  NSLog(@"connection error");
+                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alert show];
         }
         
-        NSLog(@"request completed - current");
-        
+       // NSLog(@"request completed - current");
+
     }];
     
     // 3
@@ -105,11 +106,12 @@
          else {
              // 2
              completion(nil,error);
-             NSLog(@"connection error");
-             
+          //   NSLog(@"connection error");
+                         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alert show];
          }
          
-         NSLog(@"request completed - Hourly");
+         //NSLog(@"request completed - Hourly");
          
      }];
      
@@ -141,11 +143,12 @@
          else {
              
              completion(nil,error);
-             NSLog(@"connection error");
-             
+            // NSLog(@"connection error");
+                         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alert show];
          }
          
-         NSLog(@"request completed - Daily");
+//NSLog(@"request completed - Daily");
          
      }];
      

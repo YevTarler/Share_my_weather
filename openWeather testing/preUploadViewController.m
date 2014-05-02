@@ -31,6 +31,11 @@ NSString* const kDescriptionPlaceHolder = @"Hey :) tell me your thoughts about t
     [super viewDidLoad];
     //norification for the reverse Geocoding to present the city
     
+    
+    _imageTaken.layer.cornerRadius = _imageTaken.frame.size.height /2;
+    _imageTaken.layer.masksToBounds = YES;
+    _imageTaken.layer.borderWidth = 0;
+    
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self selector:@selector(receivedNotification:) name:kAddressOfCurrentLocationNotificationKey object:nil];
     
@@ -78,16 +83,7 @@ NSString* const kDescriptionPlaceHolder = @"Hey :) tell me your thoughts about t
 -(void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
     
 }
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    NSLog(@"not working unwind");
-	UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-	
-	LMEmbeddedViewController *alertViewController = (LMEmbeddedViewController *)keyWindow.rootViewController;
-	LMAlertView *alertView = alertViewController.alertView;
-	
-	alertView.keepTopAlignment = YES;
-}
+
 
 #pragma mark - UITableViewDelegate delegate methods
 

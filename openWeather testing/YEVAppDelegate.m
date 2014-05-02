@@ -10,6 +10,7 @@
 #import "LocationManager.h"
 #import <Parse/Parse.h>
 #import <BlurryModalSegue.h>
+#import "YEVViewController.h"
 
 @implementation YEVAppDelegate
 
@@ -23,9 +24,12 @@
     [[BlurryModalSegue appearance] setBackingImageBlurRadius:@(20)];
     [[BlurryModalSegue appearance] setBackingImageSaturationDeltaFactor:@(.45)];
     
-    return YES;
+    YEVViewController* root= (YEVViewController*) self.window.rootViewController;
+    [[LocationManager sharedManager] startMonitoringLocationChanges];
+    root.location = [[LocationManager sharedManager] currentLocation];
     
     return YES;
+ 
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

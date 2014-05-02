@@ -43,13 +43,9 @@
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 
-    _title = @"You are here !";
+    _title = @"This is u! Take a photo";
     
-//    _subtitle = [NSString stringWithFormat:@"Center: (%@, %@) Radius: %@ m",
-//                 [numberFormatter stringFromNumber:[NSNumber numberWithFloat:_coordinate.latitude]],
-//                 [numberFormatter stringFromNumber:[NSNumber numberWithFloat:_coordinate.longitude]],
-//                 [numberFormatter stringFromNumber:[NSNumber numberWithInt:_radius]]
-//                 ];
+
 }
 
 @end

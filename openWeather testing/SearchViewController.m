@@ -13,13 +13,15 @@
 #import "GeoQueryAnnotation.h"
 #import "LocationManager.h"
 #import "WeatherCollectionViewController.h"
+#import "WeatherPhotoDetailViewController.h"
+#import "TGRImageZoomAnimationController.h"
 
 enum PinAnnotationTypeTag {
     PinAnnotationTypeTagGeoPoint = 0,
     PinAnnotationTypeTagGeoQuery = 1
 };
 
-@interface SearchViewController ()
+@interface SearchViewController () <UIViewControllerTransitioningDelegate>
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, assign) CLLocationDistance radius;
 @property (nonatomic, strong) CircleOverlay *targetOverlay;
@@ -27,6 +29,7 @@ enum PinAnnotationTypeTag {
 @property (nonatomic) BOOL allUploadsAreShown;
 @property (nonatomic) CGRect originalFrame;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *metersLabelButton;
+@property (nonatomic,strong) UIImageView* clickedImageView;
 
 @end
 
@@ -35,8 +38,6 @@ enum PinAnnotationTypeTag {
 
 
 /*
- מה צריך לעשות
- לדאוג שכשחוזרים זה יחזיר אם הערך all נלחץ או לא ואם לא אז שיחזיר רדיוס
  בנוסף להתאים את העיגול להכל.
  להגדיר רדיוס התחלתי
  להגביהה את הגובה
@@ -83,7 +84,7 @@ enum PinAnnotationTypeTag {
     [super viewDidLoad];
     //
     self.allUploadsAreShown = NO;
-    self.radiusButton.title = @"Show all";
+    self.radiusButton.title = @"Show all         ";
     self.slider.hidden = NO;
     self.metersLabelButton.title = @"Meters";
     self.metersLabelButton.tintColor = [UIColor blackColor];
@@ -137,7 +138,7 @@ enum PinAnnotationTypeTag {
             annotationView.tag = PinAnnotationTypeTagGeoQuery;
             annotationView.canShowCallout = YES;
             annotationView.pinColor = MKPinAnnotationColorPurple;
-            
+            annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     //        annotationView.animatesDrop = NO;
    //         annotationView.draggable = YES;
             
@@ -159,12 +160,12 @@ enum PinAnnotationTypeTag {
             annotationView.canShowCallout = YES;
             annotationView.pinColor = MKPinAnnotationColorRed;
             annotationView.animatesDrop = YES;
-            annotationView.draggable = NO;
+            
             
             //__block
             
             GeoPointAnnotation *anno =(GeoPointAnnotation*) annotation;
-            PFFile *thumbFile = (PFFile *)[anno.object objectForKey:@"thumbnailFile"];
+            PFFile *thumbFile = (PFFile *)[anno.object objectForKey:@"mapThumbnailFile"];
             
             
             [thumbFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -177,9 +178,6 @@ enum PinAnnotationTypeTag {
         
     }];
                 
-                //NSLog(@"file deownloaded");
- 
-               
             } progressBlock:^(int percentDone) {
 
             }];
@@ -313,9 +311,21 @@ enum PinAnnotationTypeTag {
 
 -(void)viewWillDisappear:(BOOL)animated {
     WeatherCollectionViewController *wcvc = self.tabBarController.viewControllers[0];
-    wcvc.showAll = NO;
+    if(self.allUploadsAreShown){
+        wcvc.showAll = YES;
+    }
+    else
+        wcvc.showAll = NO;
     wcvc.radius = self.radius;
+    wcvc.allWeatherUploads = self.WeatherUploads;
+    
+    
 }
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 // Where the magic happens:
 
 - (void)updateLocations {
@@ -323,6 +333,7 @@ enum PinAnnotationTypeTag {
 
     PFQuery *query = [PFQuery queryWithClassName:@"WeatherPhoto"];
     [query setLimit:1000];
+    [query orderByDescending:@"createdAt"];
     if (!self.allUploadsAreShown) {
         [query whereKey:@"location"
            nearGeoPoint:[PFGeoPoint geoPointWithLatitude:self.location.coordinate.latitude
@@ -331,6 +342,7 @@ enum PinAnnotationTypeTag {
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
+            self.WeatherUploads = [NSMutableArray arrayWithArray:objects];
             for (PFObject *object in objects) {
                 GeoPointAnnotation *geoPointAnnotation = [[GeoPointAnnotation alloc]
                                                           initWithObject:object];
@@ -341,6 +353,49 @@ enum PinAnnotationTypeTag {
             //wvc.radiusLabel.text = [NSString stringWithFormat:@"%f",self.radius];
         }
     }];
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view
+calloutAccessoryControlTapped:(UIControl *)control
+{
+
+    if ([view.annotation isKindOfClass:[GeoQueryAnnotation class]]) {
+        NSLog(@"this is me!");
+        WeatherCollectionViewController *wcvc = self.tabBarController.viewControllers[0];
+        [self.tabBarController setSelectedIndex:0];
+       [wcvc takePhoto:nil];
+
+        
+    }
+    else{
+    GeoPointAnnotation *anno = (GeoPointAnnotation*) view.annotation;
+    
+    UIImageView *imageview = (UIImageView*) view.leftCalloutAccessoryView;
+    self.clickedImageView = imageview;
+    WeatherPhotoDetailViewController *weatherDetail = [[WeatherPhotoDetailViewController alloc] initWithImage:imageview.image];
+    
+    weatherDetail.weatherParseObject = (PFObject *)anno.object;
+    weatherDetail.transitioningDelegate = self;
+    [self presentViewController:weatherDetail animated:YES completion:nil];
+    }
+}
+
+//transition to show the images
+#pragma mark - UIViewControllerTransitioningDelegate methods
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    if ([presented isKindOfClass:WeatherPhotoDetailViewController.class]) {
+        return [[TGRImageZoomAnimationController alloc] initWithReferenceImageView:self.clickedImageView];
+    }
+    return nil;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    if ([dismissed isKindOfClass:WeatherPhotoDetailViewController.class]) {
+        
+        return [[TGRImageZoomAnimationController alloc] initWithReferenceImageView:self.clickedImageView];
+    }
+    return nil;
 }
 
 @end

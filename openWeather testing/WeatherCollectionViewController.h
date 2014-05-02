@@ -13,11 +13,12 @@
 
 @interface WeatherCollectionViewController : UIViewController
 {
-    NSMutableArray *allWeatherUploads;
+   
     
     MBProgressHUD *HUD;
     MBProgressHUD *refreshHUD;
 }
+@property (nonatomic,strong) NSMutableArray *allWeatherUploads;
 @property (nonatomic, strong) NSMutableArray* images;
 @property (nonatomic, assign) CLLocationDistance radius;
 @property (nonatomic) BOOL showAll;
@@ -28,4 +29,5 @@
 - (IBAction)unwindToPictureCollectionviewController:(UIStoryboardSegue *)unwindSegue;
 - (UIViewController *)viewControllerForUnwindSegueAction:(SEL)action fromViewController:(UIViewController *)fromViewController withSender:(id)sender;
 - (UIStoryboardSegue *)segueForUnwindingToViewController:(UIViewController *)toViewController fromViewController:(UIViewController *)fromViewController identifier:(NSString *)identifier;
+- (IBAction)takePhoto:(id)sender;
 @end
